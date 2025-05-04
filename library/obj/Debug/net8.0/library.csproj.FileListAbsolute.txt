@@ -27,3 +27,4 @@ C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\refint\libra
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.pdb
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.genruntimeconfig.cache
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\ref\library.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.sourcelink.json
