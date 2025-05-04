@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\goszt\\Desktop\\Szkoła\\bazy danych\\library\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\library.bundle.scp.css",
+      "Id": "C:\\Users\\IGOR\\.Net\\library-system\\library\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\library.bundle.scp.css",
       "PackagePath": "staticwebassets\\library.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\goszt\\Desktop\\Szkoła\\bazy danych\\library\\wwwroot\\app.css",
+      "Id": "C:\\Users\\IGOR\\.Net\\library-system\\library\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\Users\\goszt\\Desktop\\Szkoła\\bazy danych\\library\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\IGOR\\.Net\\library-system\\library\\wwwroot\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\goszt\\Desktop\\Szkoła\\bazy danych\\library\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\IGOR\\.Net\\library-system\\library\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\goszt\\Desktop\\Szkoła\\bazy danych\\library\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\IGOR\\.Net\\library-system\\library\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
