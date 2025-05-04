@@ -41,3 +41,46 @@ C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.Ex
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.JSInterop.dll
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.csproj.Up2Date
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\appsettings.json
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\library.staticwebassets.runtime.json
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\library.exe
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\library.deps.json
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\library.runtimeconfig.json
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\library.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\library.pdb
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\BlazorBootstrap.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.AspNetCore.Components.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\IGOR\.Net\library-system\library\bin\Debug\net8.0\Microsoft.JSInterop.dll
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.csproj.AssemblyReference.cache
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.AssemblyInfoInputs.cache
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.AssemblyInfo.cs
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.csproj.CoreCompileInputs.cache
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.sourcelink.json
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets\msbuild.library.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets\msbuild.build.library.props
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.library.props
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.library.props
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\scopedcss\bundle\library.styles.css
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\scopedcss\projectbundle\library.bundle.scp.css
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.csproj.Up2Date
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.dll
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\refint\library.dll
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.pdb
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\library.genruntimeconfig.cache
+C:\Users\IGOR\.Net\library-system\library\obj\Debug\net8.0\ref\library.dll
