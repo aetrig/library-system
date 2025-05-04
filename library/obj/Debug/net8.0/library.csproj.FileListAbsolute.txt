@@ -28,3 +28,16 @@ C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.pdb
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.genruntimeconfig.cache
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\ref\library.dll
 C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.sourcelink.json
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.csproj.AssemblyReference.cache
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\BlazorBootstrap.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.AspNetCore.Components.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\bin\Debug\net8.0\Microsoft.JSInterop.dll
+C:\Users\goszt\Desktop\Szkoła\bazy danych\library\obj\Debug\net8.0\library.csproj.Up2Date
