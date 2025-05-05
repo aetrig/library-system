@@ -1,6 +1,25 @@
 @page "/users"
 @rendermode InteractiveServer
 
+@code {
+	private string EditUserDataBtnText = "Edytuj";
+	private bool notEditable = true;
+	private void OnEditUserData()
+	{
+		Console.WriteLine("Btn pressed");
+		if (EditUserDataBtnText == "Edytuj")
+		{
+			EditUserDataBtnText = "Zapisz";
+			notEditable = false;
+		}
+		else if (EditUserDataBtnText == "Zapisz")
+		{
+			EditUserDataBtnText = "Edytuj";
+			notEditable = true;
+		}
+	}
+}
+
 <PageTitle>Przeszukiwanie użytkowników</PageTitle>
 
 
@@ -88,22 +107,3 @@
 		</div>
 	</div>
 </div>
-
-@code {
-	private string EditUserDataBtnText = "Edytuj";
-	private bool notEditable = true;
-	private void OnEditUserData()
-	{
-		Console.WriteLine("Btn pressed");
-		if (EditUserDataBtnText == "Edytuj")
-		{
-			EditUserDataBtnText = "Zapisz";
-			notEditable = false;
-		}
-		else if (EditUserDataBtnText == "Zapisz")
-		{
-			EditUserDataBtnText = "Edytuj";
-			notEditable = true;
-		}
-	}
-}
