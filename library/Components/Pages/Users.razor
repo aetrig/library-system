@@ -22,7 +22,7 @@
 
 <PageTitle>Przeszukiwanie użytkowników</PageTitle>
 
-
+@* MAIN PAGE *@
 <div class="container">
 	<div class="row">
 		<div class="col-md-2">
@@ -36,6 +36,7 @@
 				Dodaj użytkownika
 			</button>
 
+			@* LIST OF USERS FROM SEARCH *@
 			<div style="margin:10px" class="list-group">
 				<button type="button" class="list-group-item list-group-item-action">1. użytkownik</button>
 				<button type="button" class="list-group-item list-group-item-action">2. użytkownik</button>
@@ -44,10 +45,14 @@
 				<button type="button" class="list-group-item list-group-item-action">5. użytkownik</button>
 			</div>
 		</div>
+
+		@* CHOSEN USER *@
 		<div class="col-md-10">
 			Dane
 			<div class="row">
 				<div class="d-flex justify-content-between">
+
+					@* PERSONAL DATA *@
 					<div class="d-flex">
 						<input style="margin:10px" type="text" class="form-control" id="NameData" placeholder="Imię"
 							readonly="@notEditable">
@@ -58,6 +63,8 @@
 						<button style="margin:10px" type="button" class="btn btn-primary" id="EditUserDataBtn"
 							@onclick="OnEditUserData">@EditUserDataBtnText</button>
 					</div>
+
+					@* ADD RENTAL BUTTON *@
 					<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
 						data-bs-target="#AddRental">
 						Dodaj wypożyczenie
@@ -71,7 +78,7 @@
 	</div>
 </div>
 
-
+@* ADD USER MODAL *@
 <div class="modal fade" id="AddUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -90,6 +97,7 @@
 	</div>
 </div>
 
+@* ADD RENTAL MODAL *@
 <div class="modal fade" id="AddRental" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
