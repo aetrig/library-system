@@ -1,4 +1,3 @@
-
 @page "/users"
 
 <PageTitle>Przeszukiwanie użytkowników</PageTitle>
@@ -30,10 +29,13 @@
 			<div class="row">
 				<div class="d-flex justify-content-between">
 					<div class="d-flex">
-						<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
-							data-bs-target="#ViewUser">
-							Informacje o wybranym użytkowniku
-						</button>
+						<input style="margin:10px" type="text" class="form-control" id="TitleInput" placeholder="Imię"
+							readonly>
+						<input style="margin:10px" type="text" class="form-control" id="TitleInput"
+							placeholder="Nazwisko" readonly>
+						<input style="margin:10px" type="text" class="form-control" id="TitleInput" placeholder="PESEL"
+							readonly>
+						<button style="margin:10px" type="button" class="btn btn-primary">Edytuj</button>
 						<button style="margin:10px" type="button" class="btn btn-primary">
 							Edytuj
 						</button>
@@ -42,10 +44,10 @@
 						data-bs-target="#AddRental">
 						Dodaj wypożyczenie
 					</button>
-					</div>
 				</div>
+			</div>
 			<div class="row">
-				
+
 			</div>
 		</div>
 	</div>
