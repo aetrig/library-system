@@ -1,3 +1,18 @@
 {
-	"dotnet.defaultSolution": "library.sln"
+	"dotnet.defaultSolution": "library.sln",
+	"sqltools.connections": [
+		{
+			"mysqlOptions": {
+				"authProtocol": "default",
+				"enableSsl": "Disabled"
+			},
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 3306,
+			"driver": "MySQL",
+			"name": "library",
+			"database": "system_biblioteczny",
+			"username": "admin"
+		}
+	]
 }
