@@ -3,10 +3,26 @@
 <PageTitle>Przeszukiwanie książek</PageTitle>
 
 @code {
-	@* private string connectionString;
-	connectionString = "server=localhost:3306;uid=admin;pwd=admin;database=system_biblioteczny"; *@
-
-	@* MySql.Data.MySqlClient.MySqlConnection connection; *@
+	private string connectionString = "server=localhost;uid=admin;pwd=admin;database=system_biblioteczny";
+	private List<string> books = new List<string>();
+	Task ConnectToDB()
+	{
+		using (MySqlConnection connection = new MySqlConnection(connectionString))
+		{
+			connection.Open();
+			MySqlCommand command = new MySqlCommand("SELECT title FROM books", connection);
+			MySqlDataReader reader = command.ExecuteReader();
+			while (reader.Read())
+			{
+				books.Add(reader["title"].ToString());
+			}
+		}
+		return Task.CompletedTask;
+	}
+	protected override async Task OnInitializedAsync()
+	{
+		await ConnectToDB();
+	}
 }
 
 @* MAIN PAGE *@
@@ -39,10 +55,10 @@
 					<li class="list-group-item">Morbi leo risus</li>
 					<li class="list-group-item">Porta ac consectetur ac</li>
 					<li class="list-group-item">Vestibulum at eros</li>
-					@* @foreach (var book in books)
+					@foreach (var book in books)
 					{
 						<li class="list-group-item">@book</li>
-					} *@
+					}
 				</ul>
 			</div>
 			<div class="row-md-6">
