@@ -1,5 +1,8 @@
 @page "/books"
-@using MySql.Data.MySqlClient
+@inject LibraryContext Db
+@rendermode InteractiveServer
+@inject library.Services.DatabaseService DbService
+
 <PageTitle>Przeszukiwanie książek</PageTitle>
 
 @code {
@@ -7,6 +10,28 @@
 	connectionString = "server=localhost:3306;uid=admin;pwd=admin;database=system_biblioteczny"; *@
 
 	@* MySql.Data.MySqlClient.MySqlConnection connection; *@
+
+	public Book newBook = new Book();
+	private int Id = 5;
+	async private void onAddEntry()
+	{
+		Console.WriteLine("Add pressed");
+		newBook.Id = Id;
+		Id++;
+		newBook.Title = "TestTitle";
+		newBook.Id_category = "005";
+		try
+		{
+		await DbService.SaveDataAsync(newBook);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error: {ex.Message}");
+		}
+	}
+	
+
+
 }
 
 @* MAIN PAGE *@
@@ -29,6 +54,8 @@
 				data-bs-target="#AddCopyModal">
 				Dodaj egzemplarz
 			</button>
+			<button style="margin:10px" type="button" class="btn btn-primary" id="test"
+							@onclick="onAddEntry"> Test</button>
 		</div>
 		<div class="col-md-10">
 			Dane
@@ -39,16 +66,19 @@
 					<li class="list-group-item">Morbi leo risus</li>
 					<li class="list-group-item">Porta ac consectetur ac</li>
 					<li class="list-group-item">Vestibulum at eros</li>
-					@* @foreach (var book in books)
+					*DB* @foreach (var book in Db.Books.ToList())
 					{
-						<li class="list-group-item">@book</li>
-					} *@
+						<li class="list-group-item">@book.Title</li>
+					} *DB*
 				</ul>
 			</div>
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="CopiesList" style="margin:10px; height: 40vh">
+    using library.Services;
 					<li class="list-group-item">Cras justo odio</li>
 					<li class="list-group-item">Dapibus ac facilisis in</li>
+    using library.Services;
+    using library.Services;
 					<li class="list-group-item">Morbi leo risus</li>
 					<li class="list-group-item">Porta ac consectetur ac</li>
 					<li class="list-group-item">Vestibulum at eros</li>

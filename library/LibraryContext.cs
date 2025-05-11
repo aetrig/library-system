@@ -6,6 +6,10 @@ namespace library;
 public class LibraryContext : DbContext
 {
 	public DbSet<Book> Books { get; set; }
+	public LibraryContext(DbContextOptions<LibraryContext> options) : base(options)
+	{
+		Database.EnsureCreated();
+	}
 	public LibraryContext()
 	{
 		Database.EnsureCreated();
@@ -13,6 +17,6 @@ public class LibraryContext : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseMySql("server=localhost:3306;uid=admin;pwd=admin;database=system_biblioteczny", new MySqlServerVersion(new Version(8, 0, 42)));
+		optionsBuilder.UseMySql("server=localhost;port=3307;database=system_biblioteczny;user=dotnet;password=Dotnet123456!", new MySqlServerVersion(new Version(8, 0, 41)));
 	}
 }
