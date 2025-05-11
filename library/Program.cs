@@ -6,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// var connectionString = "server=localhost:3306;uid=admin;pwd=admin;database=system_biblioteczny";
+
+// builder.Services.AddDbContextFactory<LibraryContext>(opt =>
+//     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();
 
@@ -27,3 +31,4 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
