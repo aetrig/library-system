@@ -9,6 +9,6 @@ public class Book
 
 	public required string? Id_category { get; set; }
 
-	public int minimum_age {get; set;}
+	public int Minimum_age {get; set;}
 
 }
