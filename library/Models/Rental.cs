@@ -1,18 +1,20 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Google.Protobuf.WellKnownTypes;
 
 namespace library.Models;
 
 public class Rental
 {
-    public required int Id {get; set;}
+    [ Key ]
+    public int Id { get; set; }
 
-    public required int Id_client {get; set;}
+    public int Id_client {get; set;}
 
-    public required int Id_copy {get; set;}
+    public int Id_copy {get; set;}
 
-    public required Timestamp Date {get; set;}
+    public DateTime Date {get; set;}
 
-    public required Timestamp Deadline {get; set;}
+    public DateTime Deadline {get; set;}
     
 }

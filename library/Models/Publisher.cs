@@ -4,8 +4,8 @@ namespace library.Models;
 
 public class Publisher
 {
-    public required int Id {get; set;}
+    public int Id {get; set;}
 
-    public required string Name {get; set;}
+    public string Name {get; set;}
 
 }

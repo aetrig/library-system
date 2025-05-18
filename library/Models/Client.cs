@@ -4,11 +4,11 @@ namespace library.Models;
 
 public class Client
 {
-    public required int Id {get; set;}
+    public int Id {get; set;}
 
-    public required string Name {get; set;}
+    public string Name {get; set;}
 
-    public required string Surname {get; set;}
+    public string Surname {get; set;}
 
-    public required string Pesel {get; set;}
+    public string Pesel {get; set;}
 }
