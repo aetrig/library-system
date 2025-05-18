@@ -29,9 +29,6 @@
 			Console.WriteLine($"Error: {ex.Message}");
 		}
 	}
-
-
-
 }
 
 @* MAIN PAGE *@
@@ -66,9 +63,18 @@
 					<li class="list-group-item">Morbi leo risus</li>
 					<li class="list-group-item">Porta ac consectetur ac</li>
 					<li class="list-group-item">Vestibulum at eros</li>
-					<li class="list-group-item"> Database data below </li>
+
+					<li class="list-group-item"></li>
+					<li class="list-group-item"> ==== Database data below ==== </li>
 					<li class="list-group-item"></li>
 					@foreach (var book in Db.Books.ToList())
+					{
+						<li class="list-group-item">@book.Title</li>
+					}
+					<li class="list-group-item"></li>
+					<li class="list-group-item"> ==== Filtered database data below ==== </li>
+					<li class="list-group-item"></li>
+					@foreach (var book in Db.Books.Where(book => (book.Title ?? "").Contains("Prog")).ToList())
 					{
 						<li class="list-group-item">@book.Title</li>
 					}
