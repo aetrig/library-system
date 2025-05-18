@@ -9,6 +9,6 @@ public class Book
 
 	public string? Id_category { get; set; }
 
-	public int Minimum_age {get; set;}
+	public int? Minimum_age { get; set; }
 
 }

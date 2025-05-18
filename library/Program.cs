@@ -12,10 +12,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 // var connectionString = "server=localhost:3306;uid=admin;pwd=admin;database=system_biblioteczny";
- var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
- builder.Services.AddDbContextFactory<LibraryContext>(opt =>
-     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContextFactory<LibraryContext>(opt =>
+    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddScoped<DatabaseService>();
 

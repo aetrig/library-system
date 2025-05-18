@@ -22,14 +22,14 @@
 		newBook.Id_category = "005";
 		try
 		{
-		await DbService.SaveDataAsync(newBook);
+			await DbService.SaveDataAsync(newBook);
 		}
 		catch (Exception ex)
 		{
 			Console.WriteLine($"Error: {ex.Message}");
 		}
 	}
-	
+
 
 
 }
@@ -54,8 +54,8 @@
 				data-bs-target="#AddCopyModal">
 				Dodaj egzemplarz
 			</button>
-			<button style="margin:10px" type="button" class="btn btn-primary" id="test"
-							@onclick="onAddEntry"> Test</button>
+			<button style="margin:10px" type="button" class="btn btn-primary" id="test" @onclick="onAddEntry">
+				Test</button>
 		</div>
 		<div class="col-md-10">
 			Dane
@@ -66,19 +66,18 @@
 					<li class="list-group-item">Morbi leo risus</li>
 					<li class="list-group-item">Porta ac consectetur ac</li>
 					<li class="list-group-item">Vestibulum at eros</li>
-					*DB* @foreach (var book in Db.Books.ToList())
+					<li class="list-group-item"> Database data below </li>
+					<li class="list-group-item"></li>
+					@foreach (var book in Db.Books.ToList())
 					{
 						<li class="list-group-item">@book.Title</li>
-					} *DB*
+					}
 				</ul>
 			</div>
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="CopiesList" style="margin:10px; height: 40vh">
-    using library.Services;
 					<li class="list-group-item">Cras justo odio</li>
 					<li class="list-group-item">Dapibus ac facilisis in</li>
-    using library.Services;
-    using library.Services;
 					<li class="list-group-item">Morbi leo risus</li>
 					<li class="list-group-item">Porta ac consectetur ac</li>
 					<li class="list-group-item">Vestibulum at eros</li>
