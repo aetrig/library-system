@@ -74,6 +74,8 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+library.session.sql
+
 # Files built by Visual Studio
 *_i.c
 *_p.c
