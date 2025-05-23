@@ -12,7 +12,7 @@
 	required public Book Book { get; set; }
 
 	[CascadingParameter]
-	public required Books _Parent { get; set; }
+	public required BooksPage _Parent { get; set; }
 
 	private void onEdit()
 	{
