@@ -1,4 +1,6 @@
-﻿@code {
+﻿@inject LibraryContext Db
+
+@code {
 	[Parameter]
 	public string Title { get; set; } = "";
 
@@ -7,16 +9,42 @@
 
 	[Parameter]
 	public string Category { get; set; } = "";
+
+	[Parameter]
+	required public Book Book { get; set; }
 }
 
-<button type="button" class="list-group-item list-group-item-action">
-	@Title
-	<br>
-	@foreach (var author in Authors)
-	{
-		@author
-		@(" ")
-	}
-	<br>
-	@Category
-</button>
+<div class="list-group-item">
+	<div class="row">
+		<div class="col-md-10" style="margin: 0px;">
+			<button type="button" class="list-group-item list-group-item-action">
+				@(Book.Title ?? "")
+				<br>
+				@{
+					var pairList = Db.Books_authors.Where(pair => pair.Id_book == Book.Id).ToList();
+					foreach (var pair in pairList)
+					{
+						var author = Db.Authors.Where(a => a.Id == pair.Id_author).ToList().First();
+						Authors.Add($"{author.Name} {author.Surname}");
+					}
+				}
+				@foreach (var author in Authors)
+				{
+					@if (Authors.Count > 1)
+					{
+						@(", ")
+					}
+					@author
+				}
+				<br>
+				@Db.Categories.Where(category => category.Id_category == Book.Id_category).ToList().First().Name
+				<br>
+			</button>
+		</div>
+
+		<div class="col-md-2" style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
+			<button class="btn btn-primary" type="button" style="margin:2px">Edytuj</button>
+			<button class="btn btn-primary" type="button" style="margin:2px">Usuń</button>
+		</div>
+	</div>
+</div>

@@ -60,18 +60,18 @@
 			Dane
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 40vh">
-					<li class="list-group-item"> ==== Database data below ==== </li>
+					@* <li class="list-group-item"> ==== Database data below ==== </li>
 					<li class="list-group-item"></li>
 					@foreach (var book in Db.Books.ToList())
 					{
 						<BookComponent Title="@book.Title" Category="Test Category" />
 					}
-					<li class="list-group-item"></li>
+					<li class="list-group-item"></li> *@
 					<li class="list-group-item"> ==== Filtered database data below ==== </li>
 					<li class="list-group-item"></li>
 					@foreach (var book in Db.Books.Where(book => (book.Title ?? "").Contains(titleFilter)).ToList())
 					{
-						<BookComponent Title="@book.Title" Category="Test Category" />
+						<BookComponent Book="@book" Category="Test Category" />
 					}
 				</ul>
 			</div>
@@ -97,7 +97,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<Counter IncrementAmount="10" />
+				@* <Counter IncrementAmount="10" /> *@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

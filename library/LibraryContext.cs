@@ -8,7 +8,7 @@ public class LibraryContext : DbContext
 {
 	public DbSet<Book> Books { get; set; }
 	public DbSet<Author> Authors { get; set; }
-	public DbSet<Book_author> Book_authors { get; set; }
+	public DbSet<Book_author> Books_authors { get; set; }
 	public DbSet<Category> Categories { get; set; }
 	public DbSet<Client> Clients { get; set; }
 	public DbSet<Copy> Copies { get; set; }
