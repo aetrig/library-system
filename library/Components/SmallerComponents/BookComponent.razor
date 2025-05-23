@@ -1,0 +1,22 @@
+﻿@code {
+	[Parameter]
+	public string Title { get; set; } = "";
+
+	[Parameter]
+	public List<string> Authors { get; set; } = new();
+
+	[Parameter]
+	public string Category { get; set; } = "";
+}
+
+<button type="button" class="list-group-item list-group-item-action">
+	@Title
+	<br>
+	@foreach (var author in Authors)
+	{
+		@author
+		@(" ")
+	}
+	<br>
+	@Category
+</button>

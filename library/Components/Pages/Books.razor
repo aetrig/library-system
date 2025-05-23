@@ -25,6 +25,11 @@
 			Console.WriteLine($"Error: {ex.Message}");
 		}
 	}
+
+	private void onTitleFilter(ChangeEventArgs e)
+	{
+		titleFilter = (e.Value ?? "").ToString() ?? "";
+	}
 }
 
 @* MAIN PAGE *@
@@ -32,8 +37,8 @@
 	<div class="row">
 		<div class="col-md-2">
 			Wyszukiwanie
-			<input style="margin:10px" @oninput="e => titleFilter = e.Value?.ToString()" type="text"
-				class="form-control" id="TitleInput" placeholder="Tytuł">
+			<input style="margin:10px" @oninput=@onTitleFilter type="text" class="form-control" id="TitleInput"
+				placeholder="Tytuł">
 			<input style="margin:10px" type="text" class="form-control" id="AutorInput" placeholder="Autor">
 			<select style="margin:10px" class="form-control" id="CategorySelect" placeholder="Kategoria">
 				<option value="1">1.</option>
@@ -59,14 +64,14 @@
 					<li class="list-group-item"></li>
 					@foreach (var book in Db.Books.ToList())
 					{
-						<li class="list-group-item">@book.Title</li>
+						<BookComponent Title="@book.Title" Category="Test Category" />
 					}
 					<li class="list-group-item"></li>
 					<li class="list-group-item"> ==== Filtered database data below ==== </li>
 					<li class="list-group-item"></li>
 					@foreach (var book in Db.Books.Where(book => (book.Title ?? "").Contains(titleFilter)).ToList())
 					{
-						<li class="list-group-item">@book.Title</li>
+						<BookComponent Title="@book.Title" Category="Test Category" />
 					}
 				</ul>
 			</div>
@@ -92,7 +97,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				...
+				<Counter IncrementAmount="10" />
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
