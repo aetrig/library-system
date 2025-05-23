@@ -6,7 +6,8 @@
 <PageTitle>Przeszukiwanie książek</PageTitle>
 
 @code {
-	private string titleFilter = "";
+	private string TitleFilter = "";
+	private string AuthorFilter = "";
 	public Book newBook = new Book();
 	private int Id = 5;
 	async private void onAddEntry()
@@ -24,12 +25,23 @@
 		{
 			Console.WriteLine($"Error: {ex.Message}");
 		}
+		UpdateState();
 	}
 
+	public void UpdateState()
+	{
+		StateHasChanged();
+	}
 	private void onTitleFilter(ChangeEventArgs e)
 	{
-		titleFilter = (e.Value ?? "").ToString() ?? "";
+		TitleFilter = (e.Value ?? "").ToString() ?? "";
 	}
+
+	private void onAuthorFilter(ChangeEventArgs e)
+	{
+		AuthorFilter = (e.Value ?? "").ToString() ?? "";
+	}
+
 }
 
 @* MAIN PAGE *@
@@ -39,7 +51,8 @@
 			Wyszukiwanie
 			<input style="margin:10px" @oninput=@onTitleFilter type="text" class="form-control" id="TitleInput"
 				placeholder="Tytuł">
-			<input style="margin:10px" type="text" class="form-control" id="AutorInput" placeholder="Autor">
+			<input style="margin:10px" @oninput=@onAuthorFilter type="text" class="form-control" id="AutorInput"
+				placeholder="Autor">
 			<select style="margin:10px" class="form-control" id="CategorySelect" placeholder="Kategoria">
 				<option value="1">1.</option>
 				<option value="2">2.</option>
@@ -69,9 +82,13 @@
 					<li class="list-group-item"></li> *@
 					<li class="list-group-item"> ==== Filtered database data below ==== </li>
 					<li class="list-group-item"></li>
-					@foreach (var book in Db.Books.Where(book => (book.Title ?? "").Contains(titleFilter)).ToList())
+					@foreach (var book in Db.Books.Where(book => ((book.Title ?? "").Contains(TitleFilter)) &&
+										//TODO: filtering by author and category
+										(true)).ToList())
 					{
-						<BookComponent Book="@book" Category="Test Category" />
+						<CascadingValue Value="this">
+							<BookComponent Book="@book" />
+						</CascadingValue>
 					}
 				</ul>
 			</div>

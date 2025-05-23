@@ -1,17 +1,32 @@
 ﻿@inject LibraryContext Db
 
-@code {
-	[Parameter]
-	public string Title { get; set; } = "";
+@rendermode InteractiveServer
 
+@using library.Components.Pages
+
+@code {
 	[Parameter]
 	public List<string> Authors { get; set; } = new();
 
 	[Parameter]
-	public string Category { get; set; } = "";
-
-	[Parameter]
 	required public Book Book { get; set; }
+
+	[CascadingParameter]
+	public required Books _Parent { get; set; }
+
+	private void onEdit()
+	{
+
+	}
+
+	private void onDelete()
+	{
+		Db.Books.Remove(Book);
+
+		Db.SaveChanges();
+
+		_Parent.UpdateState();
+	}
 }
 
 <div class="list-group-item">
@@ -22,15 +37,16 @@
 				<br>
 				@{
 					var pairList = Db.Books_authors.Where(pair => pair.Id_book == Book.Id).ToList();
+					Authors = new();
 					foreach (var pair in pairList)
 					{
 						var author = Db.Authors.Where(a => a.Id == pair.Id_author).ToList().First();
 						Authors.Add($"{author.Name} {author.Surname}");
 					}
 				}
-				@foreach (var author in Authors)
+				@foreach (var (index, author) in Authors.Select((v, i) => (i, v)))
 				{
-					@if (Authors.Count > 1)
+					@if (index > 0)
 					{
 						@(", ")
 					}
@@ -43,8 +59,8 @@
 		</div>
 
 		<div class="col-md-2" style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
-			<button class="btn btn-primary" type="button" style="margin:2px">Edytuj</button>
-			<button class="btn btn-primary" type="button" style="margin:2px">Usuń</button>
+			<button class="btn btn-primary" @onclick=@onEdit type="button" style="margin:2px">Edytuj</button>
+			<button class="btn btn-primary" @onclick=@onDelete type="button" style="margin:2px">Usuń</button>
 		</div>
 	</div>
 </div>
