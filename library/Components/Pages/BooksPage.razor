@@ -96,11 +96,14 @@
 			</div>
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="CopiesList" style="margin:10px; height: 40vh">
+					<li class="list-group-item">
+						<h3 style="font-weight: bold;">@selectedBook.Title</h3>
+					</li>
 					@foreach (var copy in Db.Copies.Where(copy => copy.Id_book == selectedBook.Id).ToList())
 					{
-						<li class="list-group-items">
-							@copy.Id_inventory
-						</li>
+						<CascadingValue Value="this">
+							<CopyComponent Copy="@copy" />
+						</CascadingValue>
 					}
 				</ul>
 			</div>

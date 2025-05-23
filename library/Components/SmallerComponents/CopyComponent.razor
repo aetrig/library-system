@@ -1,0 +1,48 @@
+﻿@inject LibraryContext Db
+
+@rendermode InteractiveServer
+
+@using library.Components.Pages
+
+@code {
+
+
+	[Parameter]
+	required public Copy Copy { get; set; }
+
+	[CascadingParameter]
+	public required BooksPage _Parent { get; set; }
+
+
+	private void onEdit()
+	{
+
+	}
+
+	private void onBookSelect()
+	{
+		_Parent.UpdateState();
+	}
+	private void onDelete()
+	{
+		Db.Copies.Remove(Copy);
+
+		Db.SaveChanges();
+
+		_Parent.UpdateState();
+	}
+}
+
+<div class="list-group-item">
+	<div class="row">
+		<div class="col" style="margin: 0px;">
+			@Copy.Id_inventory
+		</div>
+
+		<div class="col-md-auto"
+			style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
+			<button class="btn btn-primary" @onclick=@onEdit type="button" style="margin:2px">Edytuj</button>
+			<button class="btn btn-primary" @onclick=@onDelete type="button" style="margin:2px">Usuń</button>
+		</div>
+	</div>
+</div>

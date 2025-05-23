@@ -5,7 +5,7 @@
 @using library.Components.Pages
 
 @code {
-	[Parameter]
+
 	public List<string> Authors { get; set; } = new();
 
 	[Parameter]
@@ -13,6 +13,7 @@
 
 	[CascadingParameter]
 	public required BooksPage _Parent { get; set; }
+
 
 	private void onEdit()
 	{
@@ -36,9 +37,9 @@
 
 <div class="list-group-item">
 	<div class="row">
-		<div class="col-md-9" style="margin: 0px;">
+		<div class="col" style="margin: 0px;">
 			<button type="button" @onclick=@onBookSelect class="list-group-item list-group-item-action">
-				@(Book.Title ?? "")
+				Tytuł: @(Book.Title ?? "")
 				<br>
 				@{
 					var pairList = Db.Books_authors.Where(pair => pair.Id_book == Book.Id).ToList();
@@ -49,6 +50,7 @@
 						Authors.Add($"{author.Name} {author.Surname}");
 					}
 				}
+				@(Authors.Count > 1 ? "Autorzy: " : (Authors.Count == 0 ? "" : "Autor: "))
 				@foreach (var (index, author) in Authors.Select((v, i) => (i, v)))
 				{
 					@if (index > 0)
@@ -58,12 +60,14 @@
 					@author
 				}
 				<br>
-				@Db.Categories.Where(category => category.Id_category == Book.Id_category).ToList().First().Name
+				Kategoria: @Db.Categories.Where(category => category.Id_category ==
+								Book.Id_category).ToList().First().Name
 				<br>
 			</button>
 		</div>
 
-		<div class="col" style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
+		<div class="col-md-auto"
+			style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
 			<button class="btn btn-primary" @onclick=@onEdit type="button" style="margin:2px">Edytuj</button>
 			<button class="btn btn-primary" @onclick=@onDelete type="button" style="margin:2px">Usuń</button>
 		</div>
