@@ -22,6 +22,18 @@
 		}
 	}
 
+	public void onCategoryFilter()
+	{
+		_Parent.onCategoryFilter(Category);
+		updateParent();
+	}
+
+	public void onCategoryFilter(Category Category)
+	{
+		_Parent.onCategoryFilter(Category);
+		updateParent();
+	}
+
 	private void updateParent()
 	{
 		_Parent.UpdateState();
@@ -31,17 +43,19 @@
 <li class="dropend">
 	@if (ChildCategories.Count > 0)
 	{
-		<button class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
-			data-bs-auto-close="outside">@Category.Name</button>
+		<button class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+			@onclick=onCategoryFilter>@Category.Name</button>
 		<ul class="dropdown-menu">
 			@foreach (var subCategory in ChildCategories)
 			{
-				<CategoryComponent Category="@subCategory" @key=subCategory />
+				<CascadingValue Value="this">
+					<CategoryComponent Category="@subCategory" @key=subCategory />
+				</CascadingValue>
 			}
 		</ul>
 	}
 	else
 	{
-		<button class="dropdown-item">@Category.Name</button>
+		<button class="dropdown-item" @onclick=onCategoryFilter>@Category.Name</button>
 	}
 </li>

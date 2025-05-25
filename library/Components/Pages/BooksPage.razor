@@ -42,7 +42,7 @@
 	{
 		StateHasChanged();
 	}
-	
+
 	private void onTitleFilter(ChangeEventArgs e)
 	{
 		TitleFilter = (e.Value ?? "").ToString() ?? "";
@@ -58,19 +58,24 @@
 		AuthorSurnameFilter = (e.Value ?? "").ToString() ?? "";
 	}
 
+	public void onCategoryFilter(Category category)
+	{
+		RootCategory = category;
+	}
+
 	private List<Book> getBooks()
 	{
 		var books = (from book in Db.Books
-                 join bookAuthor in Db.Books_authors on book.Id equals bookAuthor.Id_book into bookAuthorGroup
-				 from bookAuthor in bookAuthorGroup.DefaultIfEmpty()
-                 join author in Db.Authors on bookAuthor.Id_author equals author.Id into authorGroup
-				 from author in authorGroup.DefaultIfEmpty()
-                 where (book.Title ?? "").Contains(TitleFilter)
-                    && (author.Name ?? "").Contains(AuthorNameFilter ?? "")
-                    && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
-                    && (book.Id_category ?? "").Contains(RootCategory.Id_category ?? "")
-                 select book).ToList();
-		
+					 join bookAuthor in Db.Books_authors on book.Id equals bookAuthor.Id_book into bookAuthorGroup
+					 from bookAuthor in bookAuthorGroup.DefaultIfEmpty()
+					 join author in Db.Authors on bookAuthor.Id_author equals author.Id into authorGroup
+					 from author in authorGroup.DefaultIfEmpty()
+					 where (book.Title ?? "").Contains(TitleFilter)
+					 && (author.Name ?? "").Contains(AuthorNameFilter ?? "")
+					 && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
+					 && (book.Id_category ?? "").Contains(RootCategory.Id_category ?? "")
+					 select book).ToList();
+
 		return books;
 	}
 
@@ -85,8 +90,8 @@
 				placeholder="Tytuł">
 			<input style="margin:10px" @oninput=@onAuthorNameFilter type="text" class="form-control" id="AutorInputName"
 				placeholder="Autor name">
-				<input style="margin:10px" @oninput=@onAuthorSurnameFilter type="text" class="form-control" id="AutorInputSurname"
-				placeholder="Autor surname">
+			<input style="margin:10px" @oninput=@onAuthorSurnameFilter type="text" class="form-control"
+				id="AutorInputSurname" placeholder="Autor surname">
 			<input style="margin:10px" type="text" class="form-control" id="PublisherInput" placeholder="Wydawnictwo">
 
 			<div class="dropdown" style="margin:10px;">
@@ -98,7 +103,9 @@
 					@foreach (var supercategory in Db.Categories.Where(Category => Category.Id_supercategory == null))
 					{
 						@* TODO: Filtering by category by calling function from the child component far down here to parent *@
-						<CategoryComponent Category="@supercategory" />
+						<CascadingValue Value="this">
+							<CategoryComponent Category="@supercategory" />
+						</CascadingValue>
 					}
 				</ul>
 			</div>
@@ -122,11 +129,11 @@
 				<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 40vh">
 					<li class="list-group-item"> ==== Filtered database data below ==== </li>
 					<li class="list-group-item"></li>
-					@foreach(var book in getBooks())
+					@foreach (var book in getBooks())
 					{
-    					<CascadingValue Value="this">
-    					    <BookComponent Book="@book" />
-    					</CascadingValue>
+						<CascadingValue Value="this">
+							<BookComponent Book="@book" />
+						</CascadingValue>
 					}
 
 				</ul>
