@@ -55,15 +55,45 @@
 				placeholder="Tytuł">
 			<input style="margin:10px" @oninput=@onAuthorFilter type="text" class="form-control" id="AutorInput"
 				placeholder="Autor">
-			<select style="margin:10px" class="form-control" id="CategorySelect" placeholder="Kategoria">
+			<input style="margin:10px" type="text" class="form-control" id="PublisherInput" placeholder="Wydawnictwo">
+			@* <select style="margin:10px" class="form-control" id="CategorySelect" placeholder="Kategoria">
 				<option value="1">1.</option>
 				<option value="2">2.</option>
 				<option value="3">3.</option>
-				<option value="4">4.</option>
-			</select>
-			<input style="margin:10px" type="text" class="form-control" id="PublisherInput" placeholder="Wydawnictwo">
+			</select> *@
+			<div class="dropdown" style="margin:10px;">
+				<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown"
+					aria-expanded="false" data-bs-auto-close="outside">
+					Kategoria
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuCategory">
+					<li>
+						<button class="dropdown-item">1.</button>
+					</li>
+					<li>
+						<button class="dropdown-item">2.</button>
+					</li>
+					<li class="dropend">
+						<button class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">3.</button>
+						<ul class="dropdown-menu">
+							<li>
+								<button class="dropdown-item">3.1</button>
+							</li>
+							<li>
+								<button class="dropdown-item">3.2</button>
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+			</div>
+
 
 			Zarządzanie
+			<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#AddBookModal">
+				Dodaj książkę
+			</button>
 			<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
 				data-bs-target="#AddCopyModal">
 				Dodaj egzemplarz
@@ -111,8 +141,28 @@
 	</div>
 </div>
 
-@* ADD BOOK/COPY MODAL *@
+@* ADD COPY MODAL *@
 <div class="modal fade" id="AddCopyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Dodaj Egzemplarz</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				@* <Counter IncrementAmount="10" /> *@
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@* ADD BOOK MODAL *@
+<div class="modal fade" id="AddBookModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
