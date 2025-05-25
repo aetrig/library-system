@@ -65,11 +65,11 @@
 	private List<Client> getClients()
 	{
 		var clients = (from client in Db.Clients
-                 where (client.Name ?? "").Contains(clientNameFilter ?? "")
-                    && (client.Surname ?? "").Contains(clientSurnameFilter ?? "")
-                    && (client.Pesel ?? "").Contains(clientPeselFilter ?? "")
-                 select client).ToList();
-		
+					   where (client.Name ?? "").Contains(clientNameFilter ?? "")
+					   && (client.Surname ?? "").Contains(clientSurnameFilter ?? "")
+					   && (client.Pesel ?? "").Contains(clientPeselFilter ?? "")
+					   select client).ToList();
+
 		return clients;
 	}
 	async private Task AddClient()
@@ -93,6 +93,10 @@
 		}
 		StateHasChanged();
 	}
+	public void UpdateState()
+	{
+		StateHasChanged();
+	}
 }
 
 <PageTitle>Przeszukiwanie użytkowników</PageTitle>
@@ -102,9 +106,12 @@
 	<div class="row">
 		<div class="col-md-2">
 			Wyszukiwanie
-			<input style="margin:10px" @oninput=@onClientNameFilter type="text" class="form-control" id="NameInput" placeholder="Imię">
-			<input style="margin:10px" @oninput=@onClientSurnameFilter type="text" class="form-control" id="SurnameInput" placeholder="Nazwisko">
-			<input style="margin:10px" @oninput=@onClientPeselFilter type="text" class="form-control" id="PeselInput" placeholder="PESEL">
+			<input style="margin:10px" @oninput=@onClientNameFilter type="text" class="form-control" id="NameInput"
+				placeholder="Imię">
+			<input style="margin:10px" @oninput=@onClientSurnameFilter type="text" class="form-control"
+				id="SurnameInput" placeholder="Nazwisko">
+			<input style="margin:10px" @oninput=@onClientPeselFilter type="text" class="form-control" id="PeselInput"
+				placeholder="PESEL">
 			Zarządzanie
 			<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
 				data-bs-target="#AddUserModal">
@@ -152,23 +159,9 @@
 				@foreach (var rental in Db.Rentals.Where(rent => rent.Id_client == currentClient.Id).ToList())
 				{
 
-					var startDate = DateOnly.FromDateTime(rental.Date);
-					var endDate = DateOnly.FromDateTime(rental.Deadline);
-					var copyInventoryId = @Db.Copies.Where(Copy => Copy.Id == rental.Id_copy).First().Id_inventory;
-					var bookTitle = @Db.Books.Where(book => book.Id == Db.Copies.Where(Copy => Copy.Id ==
-					rental.Id_copy).First().Id_book).First().Title;
-
-					<li class="list-group-item">
-						Tytuł: @bookTitle
-						<br>
-						Data wypożyczenia: @startDate
-						<br>
-						Termin oddadnia: @endDate
-						<br>
-						ID inwentarza: @copyInventoryId
-						<br>
-
-					</li>
+					<CascadingValue Value="this">
+						<RentalComponent Rental=@rental />
+					</CascadingValue>
 				}
 			</ul>
 		</div>

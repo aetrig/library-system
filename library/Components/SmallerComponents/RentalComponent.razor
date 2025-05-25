@@ -1,0 +1,60 @@
+﻿@inject LibraryContext Db
+
+@rendermode InteractiveServer
+
+@using library.Components.Pages
+
+@code {
+
+
+	[Parameter]
+	required public Rental Rental { get; set; }
+
+	[CascadingParameter]
+	public required Users _Parent { get; set; }
+
+	@* private DateOnly endDate; *@
+	private void onEdit()
+	{
+		Rental.Deadline = Rental.Deadline.AddMonths(1);
+		Db.SaveChanges();
+		_Parent.UpdateState();
+	}
+
+	private void onDelete()
+	{
+		Db.Rentals.Remove(Rental);
+
+		Db.SaveChanges();
+
+		_Parent.UpdateState();
+	}
+}
+
+<div class="list-group-item">
+	<div class="row">
+		<div class="col" style="margin: 0px;">
+			@{
+				var startDate = DateOnly.FromDateTime(Rental.Date);
+				var endDate = DateOnly.FromDateTime(Rental.Deadline);
+				var copyInventoryId = @Db.Copies.Where(Copy => Copy.Id == Rental.Id_copy).First().Id_inventory;
+				var bookTitle = @Db.Books.Where(book => book.Id == Db.Copies.Where(Copy => Copy.Id ==
+				Rental.Id_copy).First().Id_book).First().Title;
+			}
+			Tytuł: @bookTitle
+			<br>
+			Data wypożyczenia: @startDate
+			<br>
+			Termin oddadnia: @endDate
+			<br>
+			ID inwentarza: @copyInventoryId
+			<br>
+		</div>
+
+		<div class="col-md-auto"
+			style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
+			<button class="btn btn-primary" @onclick=@onEdit type="button" style="margin:2px">Przedłuż</button>
+			<button class="btn btn-success" @onclick=@onDelete type="button" style="margin:2px">Oddane</button>
+		</div>
+	</div>
+</div>
