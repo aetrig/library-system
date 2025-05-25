@@ -1,5 +1,7 @@
 @page "/users"
 @rendermode InteractiveServer
+@inject LibraryContext Db
+@inject library.Services.DatabaseService DbService
 
 @code {
 	private string EditUserDataBtnText = "Edytuj";
@@ -40,9 +42,12 @@
 			<div style="margin:10px" class="list-group">
 				<button type="button" class="list-group-item list-group-item-action">1. użytkownik</button>
 				<button type="button" class="list-group-item list-group-item-action">2. użytkownik</button>
-				<button type="button" class="list-group-item list-group-item-action">3. użytkownik</button>
-				<button type="button" class="list-group-item list-group-item-action">4. użytkownik</button>
-				<button type="button" class="list-group-item list-group-item-action">5. użytkownik</button>
+				@foreach (var client in Db.Clients.ToList())
+				{
+					<button type="button" class="list-group-item list-group-item-action">
+						@($"{client.Name} {client.Surname} {client.Pesel}")
+					</button>
+				}
 			</div>
 		</div>
 
