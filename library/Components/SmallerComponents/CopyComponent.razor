@@ -13,6 +13,8 @@
 	[CascadingParameter]
 	public required BooksPage _Parent { get; set; }
 
+	@* TODO: make the availability depend on rentals *@
+	private bool Available = true;
 
 	private void onEdit()
 	{
@@ -36,7 +38,19 @@
 <div class="list-group-item">
 	<div class="row">
 		<div class="col" style="margin: 0px;">
-			@Copy.Id_inventory
+			Nr inwentarza: @Copy.Id_inventory
+			<br>
+			Wydawnictwo: @Db.Publishers.Where(Publisher => Publisher.Id == Copy.Id_publisher).First().Name
+			<br>
+			Dostępność:
+			@if (Available)
+			{
+				@("Tak")
+			}
+			else
+			{
+				@("Nie")
+			}
 		</div>
 
 		<div class="col-md-auto"

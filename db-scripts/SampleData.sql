@@ -72,7 +72,7 @@ VALUES ('032', '030', 'Encyclopedias in English', 1, 0);
 INSERT INTO publishers (name)
 VALUES ('Encyclopædia Britannica, Inc.');
 INSERT INTO publishers (name)
-VALUES ('Addison-Wesley');
+VALUES ('Addison-Wesley Professional');
 -- authors --
 INSERT INTO authors (name, surname)
 VALUES ('Bjarne', 'Stroustrup');
@@ -94,28 +94,28 @@ INSERT INTO copies (
 		id_inventory,
 		year_published
 	)
-VALUES (1, 1, "TEST1", 1978);
+VALUES (1, 2, "TEST1", 1978);
 INSERT INTO copies (
 		id_book,
 		id_publisher,
 		id_inventory,
 		year_published
 	)
-VALUES (1, 1, "TEST3", 1978);
+VALUES (1, 2, "TEST3", 1978);
 INSERT INTO copies (
 		id_book,
 		id_publisher,
 		id_inventory,
 		year_published
 	)
-VALUES (1, 1, "TEST4", 1978);
+VALUES (1, 2, "TEST4", 1978);
 INSERT INTO copies (
 		id_book,
 		id_publisher,
 		id_inventory,
 		year_published
 	)
-VALUES (2, 2, "TEST2", 2002);
+VALUES (2, 1, "TEST2", 2002);
 -- clients --
 INSERT INTO clients (name, surname, PESEL)
 VALUES ('Jan', 'Kowalski', '02262505133');
