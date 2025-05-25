@@ -8,6 +8,10 @@
 	private string EditUserDataBtnText = "Edytuj";
 	private bool notEditable = true;
 	private Client currentClient = new Client();
+	private string? newName;
+	private string? newSurname;
+	private string? newPesel;
+
 	private void OnEditUserData()
 	{
 		if (EditUserDataBtnText == "Edytuj")
@@ -17,6 +21,10 @@
 		}
 		else if (EditUserDataBtnText == "Zapisz")
 		{
+			currentClient.Name = newName;
+			currentClient.Surname = newSurname;
+			currentClient.Pesel = newPesel;
+			Db.SaveChanges();
 			EditUserDataBtnText = "Edytuj";
 			notEditable = true;
 		}
@@ -25,6 +33,9 @@
 	private void setClient(Client client)
 	{
 		currentClient = client;
+		newName = client.Name;
+		newSurname = client.Surname;
+		newPesel = client.Pesel;
 	}
 }
 
@@ -63,12 +74,12 @@
 
 					@* PERSONAL DATA *@
 					<div class="d-flex">
-						<input style="margin:10px" type="text" class="form-control" id="NameData"
-							placeholder="@currentClient.Name" readonly="@notEditable">
-						<input style="margin:10px" type="text" class="form-control" id="SurnameData"
-							placeholder="@currentClient.Surname" readonly="@notEditable">
-						<input style="margin:10px" type="text" class="form-control" id="PeselData"
-							placeholder="@currentClient.Pesel" readonly="@notEditable">
+						<input style="margin:10px" @bind-value=@newName type="text" class="form-control" id="NameData"
+							placeholder="Imię" readonly="@notEditable">
+						<input style="margin:10px" @bind-value=@newSurname type="text" class="form-control"
+							id="SurnameData" placeholder="Nazwisko" readonly="@notEditable">
+						<input style="margin:10px" @bind-value=@newPesel type="text" class="form-control" id="PeselData"
+							placeholder="Pesel" readonly="@notEditable">
 						<button style="margin:10px" type="button" class="btn btn-primary" id="EditUserDataBtn"
 							@onclick="OnEditUserData">@EditUserDataBtnText</button>
 					</div>
