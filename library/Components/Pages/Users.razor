@@ -93,18 +93,27 @@
 			</div>
 
 			<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 80vh">
-				<li class="list-group-item"> ==== rental database data below ==== </li>
-				<li class="list-group-item"></li>
 				@foreach (var rental in Db.Rentals.Where(rent => rent.Id_client == currentClient.Id).ToList())
 				{
+
+					var startDate = DateOnly.FromDateTime(rental.Date);
+					var endDate = DateOnly.FromDateTime(rental.Deadline);
+					var copyInventoryId = @Db.Copies.Where(Copy => Copy.Id == rental.Id_copy).First().Id_inventory;
+					var bookTitle = @Db.Books.Where(book => book.Id == Db.Copies.Where(Copy => Copy.Id ==
+					rental.Id_copy).First().Id_book).First().Title;
+
 					<li class="list-group-item">
-						@rental.Date <br>
-						@rental.Deadline <br>
-						@Db.Copies.Where(Copy => Copy.Id == rental.Id_copy).First().Id_inventory <br>
-						@Db.Books.Where(book => book.Id == Db.Copies.Where(Copy => Copy.Id ==
-						rental.Id_copy).First().Id_book).First().Title <br>
-				</li>
-								}
+						Tytuł: @bookTitle
+						<br>
+						Data wypożyczenia: @startDate
+						<br>
+						Termin oddadnia: @endDate
+						<br>
+						ID inwentarza: @copyInventoryId
+						<br>
+
+					</li>
+				}
 			</ul>
 		</div>
 
