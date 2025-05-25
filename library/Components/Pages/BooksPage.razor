@@ -163,10 +163,19 @@
 					@if (RootCategory.Id_category != null)
 					{
 						<li class="list-group-item">
-							<h4 style="font-weight: bold;">@Db.Categories.Where(cat => cat.Id_category ==
-															RootCategory.Id_category).First().Name</h4>
-					</li>
-										}
+							<h4 style="font-weight: bold;">
+								@Db.Categories.Where(cat => cat.Id_category == RootCategory.Id_category).First().Name
+							</h4>
+						</li>
+					}
+					else
+					{
+						<li class="list-group-item">
+							<h4 style="font-weight: bold;">
+								Wszystko
+							</h4>
+						</li>
+					}
 					@foreach (var book in getBooks())
 					{
 						<CascadingValue Value="this">
@@ -181,7 +190,7 @@
 					@if (selectedBook != null)
 					{
 						<li class="list-group-item">
-							<h3 style="font-weight: bold;">@selectedBook.Title</h3>
+							<h4 style="font-weight: bold;">@selectedBook.Title</h4>
 						</li>
 						@foreach (var copy in Db.Copies.Where(copy => copy.Id_book == selectedBook.Id).ToList())
 						@* TODO: make it pretty and filtering by publisher *@
