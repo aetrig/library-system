@@ -11,7 +11,14 @@
 
 	public Book selectedBook = new Book();
 	public Book newBook = new Book();
+
+	private Category RootCategory = new Category();
 	private int Id = 5;
+
+	protected override void OnInitialized()
+	{
+		RootCategory.Id_category = null;
+	}
 	async private void onAddEntry()
 	{
 		Console.WriteLine("Add pressed");
@@ -56,35 +63,17 @@
 			<input style="margin:10px" @oninput=@onAuthorFilter type="text" class="form-control" id="AutorInput"
 				placeholder="Autor">
 			<input style="margin:10px" type="text" class="form-control" id="PublisherInput" placeholder="Wydawnictwo">
-			@* <select style="margin:10px" class="form-control" id="CategorySelect" placeholder="Kategoria">
-				<option value="1">1.</option>
-				<option value="2">2.</option>
-				<option value="3">3.</option>
-			</select> *@
+
 			<div class="dropdown" style="margin:10px;">
 				<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown"
 					aria-expanded="false" data-bs-auto-close="outside">
 					Kategoria
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuCategory">
-					<li>
-						<button class="dropdown-item">1.</button>
-					</li>
-					<li>
-						<button class="dropdown-item">2.</button>
-					</li>
-					<li class="dropend">
-						<button class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">3.</button>
-						<ul class="dropdown-menu">
-							<li>
-								<button class="dropdown-item">3.1</button>
-							</li>
-							<li>
-								<button class="dropdown-item">3.2</button>
-							</li>
-						</ul>
-					</li>
-
+					@foreach (var supercategory in Db.Categories.Where(Category => Category.Id_supercategory == null))
+					{
+						<CategoryComponent Category="@supercategory" />
+					}
 				</ul>
 			</div>
 

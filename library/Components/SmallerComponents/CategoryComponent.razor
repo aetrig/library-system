@@ -1,0 +1,67 @@
+﻿@inject LibraryContext Db
+
+@rendermode InteractiveServer
+
+@using library.Components.Pages
+
+@code {
+
+	[Parameter]
+	public required Category Category { get; set; }
+
+	[CascadingParameter]
+	public required BooksPage _Parent { get; set; }
+	private List<Category> ChildCategories = new();
+
+	protected override void OnInitialized()
+	{
+		ChildCategories = new();
+		foreach (var category in Db.Categories.Where(cat => cat.Id_supercategory == Category.Id_category))
+		{
+			ChildCategories.Add(category);
+		}
+	}
+
+	@* private void onEdit()
+	{
+
+	}
+
+	private void onBookSelect()
+	{
+		_Parent.selectedBook = Book;
+		_Parent.UpdateState();
+	}
+	private void onDelete()
+	{
+		Db.Books.Remove(Book);
+
+		Db.SaveChanges();
+
+		_Parent.UpdateState();
+	} *@
+	private void updateParent()
+	{
+		_Parent.UpdateState();
+	}
+}
+
+<li class="dropend">
+	@if (ChildCategories.Count > 0)
+	{
+		<button class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
+			data-bs-auto-close="outside">@Category.Name</button>
+		<ul class="dropdown-menu">
+			@foreach (var subCategory in ChildCategories)
+			{
+				@* <CascadingValue Value=@_Parent> *@
+				<CategoryComponent Category="@subCategory" @key=subCategory />
+				@* </CascadingValue> *@
+			}
+		</ul>
+	}
+	else
+	{
+		<button class="dropdown-item">@Category.Name</button>
+	}
+</li>

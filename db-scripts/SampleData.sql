@@ -15,6 +15,20 @@ VALUES (
 		1,
 		0
 	);
+INSERT INTO categories (
+		id_category,
+		id_supercategory,
+		name,
+		has_children,
+		has_items
+	)
+VALUES (
+		'100',
+		null,
+		'Philosophy and psychology',
+		1,
+		0
+	);
 -- Kategoria niższa 005
 INSERT INTO categories (
 		id_category,
