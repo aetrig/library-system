@@ -72,6 +72,7 @@
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuCategory">
 					@foreach (var supercategory in Db.Categories.Where(Category => Category.Id_supercategory == null))
 					{
+						@* TODO: Filtering by category by calling function from the child component far down here to parent *@
 						<CategoryComponent Category="@supercategory" />
 					}
 				</ul>
@@ -94,17 +95,10 @@
 			Dane
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 40vh">
-					@* <li class="list-group-item"> ==== Database data below ==== </li>
-					<li class="list-group-item"></li>
-					@foreach (var book in Db.Books.ToList())
-					{
-						<BookComponent Title="@book.Title" Category="Test Category" />
-					}
-					<li class="list-group-item"></li> *@
 					<li class="list-group-item"> ==== Filtered database data below ==== </li>
 					<li class="list-group-item"></li>
 					@foreach (var book in Db.Books.Where(book => ((book.Title ?? "").Contains(TitleFilter)) &&
-										//TODO: filtering by author and category
+										@* TODO: filtering by author and category *@
 										(true)).ToList())
 					{
 						<CascadingValue Value="this">
@@ -119,6 +113,7 @@
 						<h3 style="font-weight: bold;">@selectedBook.Title</h3>
 					</li>
 					@foreach (var copy in Db.Copies.Where(copy => copy.Id_book == selectedBook.Id).ToList())
+					@* TODO: make it pretty and filtering by publisher *@
 					{
 						<CascadingValue Value="this">
 							<CopyComponent Copy="@copy" />
@@ -139,7 +134,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				@* <Counter IncrementAmount="10" /> *@
+				@* TODO: ADDING COPY MODAL *@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -159,7 +154,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				@* <Counter IncrementAmount="10" /> *@
+				@* TODO: ADDING BOOK MODAL *@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

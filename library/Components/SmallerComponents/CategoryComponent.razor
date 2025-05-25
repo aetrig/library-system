@@ -22,24 +22,6 @@
 		}
 	}
 
-	@* private void onEdit()
-	{
-
-	}
-
-	private void onBookSelect()
-	{
-		_Parent.selectedBook = Book;
-		_Parent.UpdateState();
-	}
-	private void onDelete()
-	{
-		Db.Books.Remove(Book);
-
-		Db.SaveChanges();
-
-		_Parent.UpdateState();
-	} *@
 	private void updateParent()
 	{
 		_Parent.UpdateState();
@@ -54,9 +36,7 @@
 		<ul class="dropdown-menu">
 			@foreach (var subCategory in ChildCategories)
 			{
-				@* <CascadingValue Value=@_Parent> *@
 				<CategoryComponent Category="@subCategory" @key=subCategory />
-				@* </CascadingValue> *@
 			}
 		</ul>
 	}
