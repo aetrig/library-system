@@ -145,12 +145,16 @@
 	Autorzy:
 	@for (int i = 0; i < AuthorsCount; i++)
 	{
-		@($"{AuthorNames[i]} {AuthorSurnames[i]}, ")
+		@($"{AuthorNames[i]} {AuthorSurnames[i]}")
+		if (i < AuthorsCount - 1 && (AuthorNames[i+1] != "" || AuthorSurnames[i+1] != ""))
+		{
+			@(", ")
+		}
 	}
 </div>
 
 <button type="button" class="btn btn-primary" @onclick=@AddBook>Dodaj</button>
-<input style="margin:10px" type="text" @oninput="(e) => onTitleInput(e)" class="form-control" placeholder="Tytuł">
+<input style="margin:10px" @bind-value=Title type="text" @oninput="(e) => onTitleInput(e)" class="form-control" placeholder="Tytuł">
 <div class="dropdown" style="margin:10px;">
 	<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown" aria-expanded="false"
 		data-bs-auto-close="outside" @onclick="() => { RootCategory = new(); }">
@@ -173,9 +177,9 @@
 @foreach (var Author in AuthorNames)
 {
 	var loopindex = index;
-	<input style="margin:10px" @oninput="(e) => onAuthorNameInput(e, loopindex)" type="text" class="form-control"
+	<input style="margin:10px" @bind-value=@AuthorNames[loopindex] @oninput="(e) => onAuthorNameInput(e, loopindex)" type="text" class="form-control"
 		placeholder="Imię">
-	<input style="margin:10px" @oninput="(e) => onAuthorSurnameInput(e, loopindex)" type="text" class="form-control"
+	<input style="margin:10px" @bind-value=@AuthorSurnames[loopindex] @oninput="(e) => onAuthorSurnameInput(e, loopindex)" type="text" class="form-control"
 		placeholder="Nazwisko">
 	index++;
 }
