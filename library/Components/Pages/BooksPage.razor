@@ -74,7 +74,7 @@
 					 && (author.Name ?? "").Contains(AuthorNameFilter ?? "")
 					 && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
 					 && (book.Id_category ?? "").Contains(RootCategory.Id_category ?? "")
-					 select book).ToList();
+					 select book).Distinct().ToList();
 
 		return books;
 	}
@@ -187,11 +187,10 @@
 			<div class="modal-body">
 				@* TODO: ADDING BOOK MODAL *@
 			</div>
-
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
 		</div>
 	</div>
 </div>
