@@ -12,6 +12,10 @@
 	private string? newSurname;
 	private string? newPesel;
 
+	private string? modalClientName;
+	private string? modalClientSurname;
+	private string? modalClientPesel;
+
 	private void OnEditUserData()
 	{
 		if (EditUserDataBtnText == "Edytuj")
@@ -36,6 +40,28 @@
 		newName = client.Name;
 		newSurname = client.Surname;
 		newPesel = client.Pesel;
+	}
+
+	async private Task AddClient()
+	{
+		Client newClient = new();
+		newClient.Name = modalClientName;
+		newClient.Surname = modalClientSurname;
+		newClient.Pesel = modalClientPesel;
+		using (var context = new LibraryContext())
+		{
+			context.Clients.Add(newClient);
+			try
+			{
+				await context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Database error: {ex.GetBaseException}");
+				throw new InvalidOperationException("An error occurred while saving data to DB.");
+			}
+		}
+		StateHasChanged();
 	}
 }
 
@@ -129,11 +155,16 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				...
+				<input style="margin:10px" @bind-value=modalClientName type="text" class="form-control"
+					placeholder="Imię">
+				<input style="margin:10px" @bind-value=modalClientSurname type="text" class="form-control"
+					placeholder="Nazwisko">
+				<input style="margin:10px" @bind-value=modalClientPesel type="text" class="form-control"
+					placeholder="Pesel">
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+				<button type="button" @onclick=AddClient class="btn btn-primary">Zapisz</button>
 			</div>
 		</div>
 	</div>

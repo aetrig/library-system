@@ -23,4 +23,20 @@ public class DatabaseService
             }
         }
     }
+    // public async Task AddClientAsync(Client clientInfo)
+    // {
+    //     using (var context = new LibraryContext())
+    //     {
+    //         context.Clients.Add(clientInfo);
+    //         try
+    //         {
+    //             await context.SaveChangesAsync();
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             Console.WriteLine($"Database error: {ex.GetBaseException}");
+    //             throw new InvalidOperationException("An error occurred while saving data to DB.");
+    //         }
+    //     }
+    // }
 }
