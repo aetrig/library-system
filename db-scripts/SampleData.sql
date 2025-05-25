@@ -126,8 +126,38 @@ VALUES (1, 1);
 INSERT INTO rentals (id_client, id_copy, date, deadline)
 VALUES (1, 4, "2025-03-02", "2025-04-02");
 -- book with multiple authors --
+INSERT INTO categories (
+		id_category,
+		id_supercategory,
+		name,
+		has_children,
+		has_items
+	)
+VALUES ('800', null, 'Literature', 1, 0);
+INSERT INTO categories (
+		id_category,
+		id_supercategory,
+		name,
+		has_children,
+		has_items
+	)
+VALUES (
+		'820',
+		'800',
+		'English and Old English literatures',
+		1,
+		0
+	);
+INSERT INTO categories (
+		id_category,
+		id_supercategory,
+		name,
+		has_children,
+		has_items
+	)
+VALUES ('823', '820', 'English fiction', 0, 1);
 INSERT INTO books (title, id_category, minimum_age)
-VALUES ('Good Omens', '000', null);
+VALUES ('Good Omens', '823', null);
 INSERT INTO authors (name, surname)
 VALUES ('Neil', 'Gaiman');
 INSERT INTO authors (name, surname)
