@@ -3,6 +3,7 @@
 @rendermode InteractiveServer
 
 @using library.Components.Pages
+@using Microsoft.EntityFrameworkCore;
 
 @code {
 
@@ -27,7 +28,14 @@
 	}
 	private void onDelete()
 	{
+		Db.Books_authors.Where(pair => pair.Id_book == Book.Id).ToList().ForEach(pair =>
+		Db.Database.ExecuteSql($"DELETE FROM books_authors WHERE id_book = {pair.Id_book} AND id_author = {pair.Id_author}"));
+		Db.Copies.Where(copy => copy.Id_book == Book.Id).ToList().ForEach(copy => Db.Copies.Remove(copy));
 		Db.Books.Remove(Book);
+
+		//Cleaning up empty authors
+		Db.Authors.Where(author => Db.Books_authors.Where(pair => pair.Id_author == author.Id).Count() ==
+		0).ToList().ForEach(author => Db.Authors.Remove(author));
 
 		Db.SaveChanges();
 

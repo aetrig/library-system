@@ -63,6 +63,10 @@
 	{
 		Book book = new();
 		book.Title = Title;
+		if (RootCategory == null || RootCategory.Id_category == null)
+		{
+			return;
+		}
 		book.Id_category = RootCategory.Id_category;
 
 		using (var context = new LibraryContext())
@@ -109,9 +113,7 @@
 				book_author.Id_author = Db.Authors.Where(Author => (Author.Name == name && Author.Surname == surname)).First().Id;
 				using (var context = new LibraryContext())
 				{
-					@* context.Books_authors.Add(book_author); *@
 					context.Database.ExecuteSql($"INSERT INTO books_authors(id_book, id_author) VALUES({book_author.Id_book}, {book_author.Id_author})");
-					// INSERT INTO books_authors (id_book, id_author) VALUES(1, 1);
 					try
 					{
 						await context.SaveChangesAsync();
@@ -129,14 +131,15 @@
 		AuthorSurnames = new();
 		RootCategory = new();
 		Title = "";
-		AuthorsCount = 1;
-		index = 0;
 		AuthorNames.Add("");
 		AuthorSurnames.Add("");
+		AuthorsCount = 1;
+		index = 0;
 		_Parent.UpdateState();
 	}
 }
-@* <div>
+
+<div>
 	Tytuł: @Title <br>
 	Kategoria: @RootCategory.Name <br>
 	Autorzy:
@@ -144,7 +147,7 @@
 	{
 		@($"{AuthorNames[i]} {AuthorSurnames[i]}, ")
 	}
-</div> *@
+</div>
 
 <button type="button" class="btn btn-primary" @onclick=@AddBook>Dodaj</button>
 <input style="margin:10px" type="text" @oninput="(e) => onTitleInput(e)" class="form-control" placeholder="Tytuł">
