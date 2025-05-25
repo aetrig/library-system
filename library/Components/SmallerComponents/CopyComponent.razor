@@ -13,9 +13,6 @@
 	[CascadingParameter]
 	public required BooksPage _Parent { get; set; }
 
-	@* TODO: make the availability depend on rentals *@
-	private bool Available = true;
-
 	private void onEdit()
 	{
 
@@ -33,6 +30,7 @@
 
 		_Parent.UpdateState();
 	}
+
 }
 
 <div class="list-group-item">
@@ -43,7 +41,7 @@
 			Wydawnictwo: @Db.Publishers.Where(Publisher => Publisher.Id == Copy.Id_publisher).First().Name
 			<br>
 			Dostępność:
-			@if (Available)
+			@if (@Db.Rentals.Where(rental => rental.Id_copy == Copy.Id).Count() == 0)
 			{
 				@("Tak")
 			}

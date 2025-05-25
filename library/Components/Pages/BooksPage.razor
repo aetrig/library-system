@@ -10,7 +10,7 @@
 	private string AuthorNameFilter = "";
 	private string AuthorSurnameFilter = "";
 
-	public Book selectedBook = new Book();
+	public Book? selectedBook = null;
 	public Book newBook = new Book();
 
 	private Category RootCategory = new Category();
@@ -100,7 +100,8 @@
 
 			<div class="dropdown" style="margin:10px;">
 				<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown"
-					aria-expanded="false" data-bs-auto-close="outside" @onclick="() => RootCategory = new()">
+					aria-expanded="false" data-bs-auto-close="outside"
+					@onclick="() => { RootCategory = new(); selectedBook = null; }">
 					Kategoria
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuCategory">
@@ -143,16 +144,20 @@
 			</div>
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="CopiesList" style="margin:10px; height: 40vh">
-					<li class="list-group-item">
-						<h3 style="font-weight: bold;">@selectedBook.Title</h3>
-					</li>
-					@foreach (var copy in Db.Copies.Where(copy => copy.Id_book == selectedBook.Id).ToList())
-					@* TODO: make it pretty and filtering by publisher *@
+					@if (selectedBook != null)
 					{
-						<CascadingValue Value="this">
-							<CopyComponent Copy="@copy" />
-						</CascadingValue>
+						<li class="list-group-item">
+							<h3 style="font-weight: bold;">@selectedBook.Title</h3>
+						</li>
+						@foreach (var copy in Db.Copies.Where(copy => copy.Id_book == selectedBook.Id).ToList())
+						@* TODO: make it pretty and filtering by publisher *@
+						{
+							<CascadingValue Value="this">
+								<CopyComponent Copy="@copy" />
+							</CascadingValue>
+						}
 					}
+
 				</ul>
 			</div>
 		</div>
