@@ -12,6 +12,26 @@
 	private string? newSurname;
 	private string? newPesel;
 
+
+	private string clientNameFilter = "";
+	private string clientSurnameFilter = "";
+	private string clientPeselFilter = "";
+
+	private void onClientNameFilter(ChangeEventArgs e)
+	{
+		clientNameFilter = (e.Value ?? "").ToString() ?? "";
+	}
+
+	private void onClientSurnameFilter(ChangeEventArgs e)
+	{
+		clientSurnameFilter = (e.Value ?? "").ToString() ?? "";
+	}
+
+	private void onClientPeselFilter(ChangeEventArgs e)
+	{
+		clientPeselFilter = (e.Value ?? "").ToString() ?? "";
+	}
+
 	private void OnEditUserData()
 	{
 		if (EditUserDataBtnText == "Edytuj")
@@ -37,6 +57,17 @@
 		newSurname = client.Surname;
 		newPesel = client.Pesel;
 	}
+
+	private List<Client> getClients()
+	{
+		var clients = (from client in Db.Clients
+                 where (client.Name ?? "").Contains(clientNameFilter ?? "")
+                    && (client.Surname ?? "").Contains(clientSurnameFilter ?? "")
+                    && (client.Pesel ?? "").Contains(clientPeselFilter ?? "")
+                 select client).ToList();
+		
+		return clients;
+	}
 }
 
 <PageTitle>Przeszukiwanie użytkowników</PageTitle>
@@ -46,9 +77,9 @@
 	<div class="row">
 		<div class="col-md-2">
 			Wyszukiwanie
-			<input style="margin:10px" type="text" class="form-control" id="NameInput" placeholder="Imię">
-			<input style="margin:10px" type="text" class="form-control" id="SurnameInput" placeholder="Nazwisko">
-			<input style="margin:10px" type="text" class="form-control" id="PeselInput" placeholder="PESEL">
+			<input style="margin:10px" @oninput=@onClientNameFilter type="text" class="form-control" id="NameInput" placeholder="Imię">
+			<input style="margin:10px" @oninput=@onClientSurnameFilter type="text" class="form-control" id="SurnameInput" placeholder="Nazwisko">
+			<input style="margin:10px" @oninput=@onClientPeselFilter type="text" class="form-control" id="PeselInput" placeholder="PESEL">
 			Zarządzanie
 			<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
 				data-bs-target="#AddUserModal">
@@ -57,7 +88,7 @@
 
 			@* LIST OF USERS FROM SEARCH *@
 			<div style="margin:10px" class="list-group">
-				@foreach (var client in Db.Clients.ToList())
+				@foreach (var client in getClients())
 				{
 					<button type="button" class="list-group-item list-group-item-action" @onclick="() => setClient(client)">
 						@($"{client.Name} {client.Surname} {client.Pesel}")
