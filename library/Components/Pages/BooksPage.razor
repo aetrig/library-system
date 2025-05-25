@@ -70,13 +70,6 @@
                     && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
                     && (book.Id_category ?? "").Contains(RootCategory.Id_category ?? "")
                  select book).ToList();
-		Console.WriteLine(TitleFilter);
-		Console.WriteLine(AuthorNameFilter);
-		Console.WriteLine(AuthorSurnameFilter);
-		foreach(var book in books)
-		{
-			Console.WriteLine(book.Title);
-		}
 		
 		return books;
 	}
