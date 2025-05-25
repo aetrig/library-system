@@ -91,10 +91,32 @@
 					</button>
 				</div>
 			</div>
-			<div class="row">
 
-			</div>
+			<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 80vh">
+				@foreach (var rental in Db.Rentals.Where(rent => rent.Id_client == currentClient.Id).ToList())
+				{
+
+					var startDate = DateOnly.FromDateTime(rental.Date);
+					var endDate = DateOnly.FromDateTime(rental.Deadline);
+					var copyInventoryId = @Db.Copies.Where(Copy => Copy.Id == rental.Id_copy).First().Id_inventory;
+					var bookTitle = @Db.Books.Where(book => book.Id == Db.Copies.Where(Copy => Copy.Id ==
+					rental.Id_copy).First().Id_book).First().Title;
+
+					<li class="list-group-item">
+						Tytuł: @bookTitle
+						<br>
+						Data wypożyczenia: @startDate
+						<br>
+						Termin oddadnia: @endDate
+						<br>
+						ID inwentarza: @copyInventoryId
+						<br>
+
+					</li>
+				}
+			</ul>
 		</div>
+
 	</div>
 </div>
 

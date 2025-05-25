@@ -122,4 +122,6 @@ VALUES ('Jan', 'Kowalski', '02262505133');
 INSERT INTO clients (name, surname, PESEL)
 VALUES ('Anna', 'Nowak', '00222906666');
 INSERT INTO books_authors (id_book, id_author)
-VALUES (1, 1)
+VALUES (1, 1);
+INSERT INTO rentals (id_client, id_copy, date, deadline)
+VALUES (1, 4, "2025-03-02", "2025-04-02");
