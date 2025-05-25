@@ -125,3 +125,14 @@ INSERT INTO books_authors (id_book, id_author)
 VALUES (1, 1);
 INSERT INTO rentals (id_client, id_copy, date, deadline)
 VALUES (1, 4, "2025-03-02", "2025-04-02");
+-- book with multiple authors --
+INSERT INTO books (title, id_category, minimum_age)
+VALUES ('Good Omens', '000', null);
+INSERT INTO authors (name, surname)
+VALUES ('Neil', 'Gaiman');
+INSERT INTO authors (name, surname)
+VALUES ('Terry', 'Pratchett');
+INSERT INTO books_authors (id_book, id_author)
+VALUES (3, 3);
+INSERT INTO books_authors (id_book, id_author)
+VALUES (3, 4);
