@@ -2,13 +2,14 @@
 @rendermode InteractiveServer
 @inject LibraryContext Db
 @inject library.Services.DatabaseService DbService
+@using library.Components
 
 @code {
 	private string EditUserDataBtnText = "Edytuj";
 	private bool notEditable = true;
+	private Client currentClient = new Client();
 	private void OnEditUserData()
 	{
-		Console.WriteLine("Btn pressed");
 		if (EditUserDataBtnText == "Edytuj")
 		{
 			EditUserDataBtnText = "Zapisz";
@@ -19,6 +20,11 @@
 			EditUserDataBtnText = "Edytuj";
 			notEditable = true;
 		}
+	}
+
+	private void setClient(Client client)
+	{
+		currentClient = client;
 	}
 }
 
@@ -40,11 +46,9 @@
 
 			@* LIST OF USERS FROM SEARCH *@
 			<div style="margin:10px" class="list-group">
-				<button type="button" class="list-group-item list-group-item-action">1. użytkownik</button>
-				<button type="button" class="list-group-item list-group-item-action">2. użytkownik</button>
 				@foreach (var client in Db.Clients.ToList())
 				{
-					<button type="button" class="list-group-item list-group-item-action">
+					<button type="button" class="list-group-item list-group-item-action" @onclick="() => setClient(client)">
 						@($"{client.Name} {client.Surname} {client.Pesel}")
 					</button>
 				}
@@ -59,12 +63,12 @@
 
 					@* PERSONAL DATA *@
 					<div class="d-flex">
-						<input style="margin:10px" type="text" class="form-control" id="NameData" placeholder="Imię"
-							readonly="@notEditable">
+						<input style="margin:10px" type="text" class="form-control" id="NameData"
+							placeholder="@currentClient.Name" readonly="@notEditable">
 						<input style="margin:10px" type="text" class="form-control" id="SurnameData"
-							placeholder="Nazwisko" readonly="@notEditable">
-						<input style="margin:10px" type="text" class="form-control" id="PeselData" placeholder="PESEL"
-							readonly="@notEditable">
+							placeholder="@currentClient.Surname" readonly="@notEditable">
+						<input style="margin:10px" type="text" class="form-control" id="PeselData"
+							placeholder="@currentClient.Pesel" readonly="@notEditable">
 						<button style="margin:10px" type="button" class="btn btn-primary" id="EditUserDataBtn"
 							@onclick="OnEditUserData">@EditUserDataBtnText</button>
 					</div>
