@@ -69,48 +69,48 @@
 	} *@
 
 	private List<Book> getBooks()
-    {
-        var books = (from book in Db.Books
-                 join bookAuthor in Db.Books_authors on book.Id equals bookAuthor.Id_book into bookAuthorGroup
-                 from bookAuthor in bookAuthorGroup.DefaultIfEmpty()
-                 join author in Db.Authors on bookAuthor.Id_author equals author.Id into authorGroup
-                 from author in authorGroup.DefaultIfEmpty()
-                 where (book.Title ?? "").Contains(TitleFilter)
-                    && (author.Name ?? "").Contains(AuthorNameFilter ?? "")
-                    && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
-                 select book).Distinct().ToList();
+	{
+		var books = (from book in Db.Books
+					 join bookAuthor in Db.Books_authors on book.Id equals bookAuthor.Id_book into bookAuthorGroup
+					 from bookAuthor in bookAuthorGroup.DefaultIfEmpty()
+					 join author in Db.Authors on bookAuthor.Id_author equals author.Id into authorGroup
+					 from author in authorGroup.DefaultIfEmpty()
+					 where (book.Title ?? "").Contains(TitleFilter)
+					 && (author.Name ?? "").Contains(AuthorNameFilter ?? "")
+					 && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
+					 select book).Distinct().ToList();
 
-        List<Book> books_filtered = new List<Book>();
+		List<Book> books_filtered = new List<Book>();
 
-        var categories = Db.Categories.ToList();
-        
-		if(RootCategory.Id_category == null)
+		var categories = Db.Categories.ToList();
+
+		if (RootCategory.Id_category == null)
 		{
 			return books;
 		}
 
-        foreach(var book in books)
-        {
-            var categoryId = book.Id_category;
-        	var category = categories.Where(cat => cat.Id_category == categoryId).First();
-    
-            while(true)
-            {
-                if(category == null)
-                {
-                    break;
-                }
-                if(category.Id_category == RootCategory.Id_category)
-                {
-                    books_filtered.Add(book);
-                    break;
-                }
-                category = categories.Where(cat => cat.Id_category == category.Id_supercategory).FirstOrDefault();
-            }
-        }
-        
-        return books_filtered;
-    }
+		foreach (var book in books)
+		{
+			var categoryId = book.Id_category;
+			var category = categories.Where(cat => cat.Id_category == categoryId).First();
+
+			while (true)
+			{
+				if (category == null)
+				{
+					break;
+				}
+				if (category.Id_category == RootCategory.Id_category)
+				{
+					books_filtered.Add(book);
+					break;
+				}
+				category = categories.Where(cat => cat.Id_category == category.Id_supercategory).FirstOrDefault();
+			}
+		}
+
+		return books_filtered;
+	}
 
 }
 
