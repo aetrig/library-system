@@ -91,10 +91,23 @@
 					</button>
 				</div>
 			</div>
-			<div class="row">
 
-			</div>
+			<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 80vh">
+				<li class="list-group-item"> ==== rental database data below ==== </li>
+				<li class="list-group-item"></li>
+				@foreach (var rental in Db.Rentals.Where(rent => rent.Id_client == currentClient.Id).ToList())
+				{
+					<li class="list-group-item">
+						@rental.Date <br>
+						@rental.Deadline <br>
+						@Db.Copies.Where(Copy => Copy.Id == rental.Id_copy).First().Id_inventory <br>
+						@Db.Books.Where(book => book.Id == Db.Copies.Where(Copy => Copy.Id ==
+						rental.Id_copy).First().Id_book).First().Title <br>
+				</li>
+								}
+			</ul>
 		</div>
+
 	</div>
 </div>
 
