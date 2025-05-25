@@ -1,20 +1,10 @@
-INSERT INTO copies (
-		id_book,
-		id_publisher,
-		id_inventory,
-		year_published
-	)
-VALUES (1, 1, "TEST3", 1978);
-INSERT INTO copies (
-		id_book,
-		id_publisher,
-		id_inventory,
-		year_published
-	)
-VALUES (1, 1, "TEST4", 1978);
-INSERT INTO copies (
-		id_book,
-		id_publisher,
-		id_inventory,
-		year_published
-	)
+INSERT INTO books (title, id_category, minimum_age)
+VALUES (
+		'Testowa Książka z wieloma autorami',
+		'000',
+		null
+	);
+INSERT INTO authors (name, surname)
+VALUES ('Imie1', 'Nazwisko1');
+INSERT INTO authors (name, surname)
+VALUES ('Imie2', 'Nazwisko2');
