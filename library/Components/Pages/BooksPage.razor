@@ -63,6 +63,10 @@
 		RootCategory = category;
 	}
 
+	@* private void resetCategoryFilter()
+	{
+		RootCategory = null;
+	} *@
 	private List<Book> getBooks()
 	{
 		var books = (from book in Db.Books
@@ -96,13 +100,12 @@
 
 			<div class="dropdown" style="margin:10px;">
 				<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown"
-					aria-expanded="false" data-bs-auto-close="outside">
+					aria-expanded="false" data-bs-auto-close="outside" @onclick="() => RootCategory = new()">
 					Kategoria
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuCategory">
 					@foreach (var supercategory in Db.Categories.Where(Category => Category.Id_supercategory == null))
 					{
-						@* TODO: Filtering by category by calling function from the child component far down here to parent *@
 						<CascadingValue Value="this">
 							<CategoryComponent Category="@supercategory" />
 						</CascadingValue>
