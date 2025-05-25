@@ -212,7 +212,6 @@
 							<h4 style="font-weight: bold;">@selectedBook.Title</h4>
 						</li>
 						@foreach (var copy in getCopies(selectedBook))
-						@* TODO: make it pretty and filtering by publisher *@
 						{
 							<CascadingValue Value="this">
 								<CopyComponent Copy="@copy" />
@@ -256,12 +255,6 @@
 			</div>
 			<div class="modal-body">
 				@* TODO: ADDING BOOK MODAL *@
-				@{
-					Book newBook = new();
-					Category category = new();
-				}
-				<input style="margin:10px" @oninput=@onTitleFilter type="text" class="form-control" id="TitleInput"
-					placeholder="Tytuł">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

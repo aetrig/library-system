@@ -59,10 +59,12 @@
 	}
 	private void onDeleteUser()
 	{
-		if (currentClient != null)
+		if (currentClient == null)
 		{
-			Db.Clients.Remove(currentClient);
+			return;
 		}
+		Db.Rentals.Where(rental => rental.Id_client == currentClient.Id).ToList().ForEach(rental => Db.Rentals.Remove(rental));
+		Db.Clients.Remove(currentClient);
 		Db.SaveChanges();
 		currentClient = null;
 		newName = null;
