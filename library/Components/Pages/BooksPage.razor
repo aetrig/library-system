@@ -77,10 +77,32 @@
 					 where (book.Title ?? "").Contains(TitleFilter)
 					 && (author.Name ?? "").Contains(AuthorNameFilter ?? "")
 					 && (author.Surname ?? "").Contains(AuthorSurnameFilter ?? "")
-					 && (book.Id_category ?? "").Contains(RootCategory.Id_category ?? "")
 					 select book).Distinct().ToList();
 
-		return books;
+		List<Book> books_filtered = new List<Book>();
+
+		var categories = Db.Categories.ToList();
+
+		if (RootCategory == null || RootCategory.Id_category == null)
+		{
+			return books;
+		}
+
+		foreach (var book in books)
+		{
+			string? currentCategoryId = book.Id_category;
+			while (currentCategoryId != null)
+			{
+				if (currentCategoryId == RootCategory.Id_category)
+				{
+					books_filtered.Add(book);
+					break;
+				}
+				currentCategoryId = Db.Categories.Where(cat => cat.Id_category == currentCategoryId).First().Id_supercategory;
+			}
+		}
+
+		return books_filtered;
 	}
 
 }
