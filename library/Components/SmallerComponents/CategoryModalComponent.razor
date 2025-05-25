@@ -1,0 +1,61 @@
+﻿@inject LibraryContext Db
+
+@rendermode InteractiveServer
+
+@using library.Components.Pages
+
+@code {
+
+	[Parameter]
+	public required Category Category { get; set; }
+
+	[CascadingParameter]
+	public required AddBookModal _Parent { get; set; }
+	private List<Category> ChildCategories = new();
+
+	protected override void OnInitialized()
+	{
+		ChildCategories = new();
+		foreach (var category in Db.Categories.Where(cat => cat.Id_supercategory == Category.Id_category))
+		{
+			ChildCategories.Add(category);
+		}
+	}
+
+	public void onCategoryFilter()
+	{
+		_Parent.onCategoryFilter(Category);
+		updateParent();
+	}
+
+	public void onCategoryFilter(Category Category)
+	{
+		_Parent.onCategoryFilter(Category);
+		updateParent();
+	}
+
+	private void updateParent()
+	{
+		_Parent.UpdateState();
+	}
+}
+
+<li class="dropend">
+	@if (ChildCategories.Count > 0)
+	{
+		<button class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+			@onclick=onCategoryFilter>@Category.Name</button>
+		<ul class="dropdown-menu">
+			@foreach (var subCategory in ChildCategories)
+			{
+				<CascadingValue Value="this">
+					<CategoryModalComponent Category="@subCategory" @key=subCategory />
+				</CascadingValue>
+			}
+		</ul>
+	}
+	else
+	{
+		<button class="dropdown-item" @onclick=onCategoryFilter>@Category.Name</button>
+	}
+</li>

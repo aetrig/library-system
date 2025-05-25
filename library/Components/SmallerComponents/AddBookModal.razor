@@ -1,5 +1,178 @@
-﻿<h3>AddBookModal</h3>
-
+﻿@page "/addbooktest"
+@inject LibraryContext Db
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore;
 @code {
 
+	private string Title = "";
+	private int AuthorsCount = 1;
+	private int index = 0;
+	private List<string> AuthorNames = new();
+	private List<string> AuthorSurnames = new();
+	private Category RootCategory = new();
+
+	[CascadingParameter]
+	public required BooksPage _Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+		AuthorNames = new();
+		AuthorSurnames = new();
+		RootCategory = new();
+		Title = "";
+		AuthorsCount = 1;
+		index = 0;
+		AuthorNames.Add("");
+		AuthorSurnames.Add("");
+	}
+	private void onTitleInput(ChangeEventArgs e)
+	{
+		Title = (e.Value ?? "").ToString() ?? "";
+	}
+	private void onAuthorNameInput(ChangeEventArgs e, int i)
+	{
+		if (i + 1 == AuthorsCount)
+		{
+			AuthorNames.Add("");
+			AuthorSurnames.Add("");
+			AuthorsCount++;
+		}
+		AuthorNames[i] = (e.Value ?? "").ToString() ?? "";
+	}
+	private void onAuthorSurnameInput(ChangeEventArgs e, int i)
+	{
+		if (i + 1 == AuthorsCount)
+		{
+			AuthorNames.Add("");
+			AuthorSurnames.Add("");
+			AuthorsCount++;
+		}
+		AuthorSurnames[i] = (e.Value ?? "").ToString() ?? "";
+	}
+
+	public void onCategoryFilter(Category category)
+	{
+		RootCategory = category;
+	}
+	public void UpdateState()
+	{
+		StateHasChanged();
+	}
+
+	private async void AddBook()
+	{
+		Book book = new();
+		book.Title = Title;
+		book.Id_category = RootCategory.Id_category;
+
+		using (var context = new LibraryContext())
+		{
+			context.Books.Add(book);
+			try
+			{
+				await context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Database error: {ex.GetBaseException}");
+				throw new InvalidOperationException("An error occurred while saving data to DB.");
+			}
+		}
+
+		for (int i = 0; i < AuthorsCount; i++)
+		{
+			string name = AuthorNames[i];
+			string surname = AuthorSurnames[i];
+			if (name != "" || surname != "")
+			{
+				if (Db.Authors.Where(Author => (Author.Name == name && Author.Surname == surname)).Count() == 0)
+				{
+					Author newAuthor = new();
+					newAuthor.Name = name;
+					newAuthor.Surname = surname;
+					using (var context = new LibraryContext())
+					{
+						context.Authors.Add(newAuthor);
+						try
+						{
+							await context.SaveChangesAsync();
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine($"Database error: {ex.GetBaseException}");
+							throw new InvalidOperationException("An error occurred while saving data to DB.");
+						}
+					}
+				}
+				Book_author book_author = new();
+				book_author.Id_book = book.Id;
+				book_author.Id_author = Db.Authors.Where(Author => (Author.Name == name && Author.Surname == surname)).First().Id;
+				using (var context = new LibraryContext())
+				{
+					@* context.Books_authors.Add(book_author); *@
+					context.Database.ExecuteSql($"INSERT INTO books_authors(id_book, id_author) VALUES({book_author.Id_book}, {book_author.Id_author})");
+					// INSERT INTO books_authors (id_book, id_author) VALUES(1, 1);
+					try
+					{
+						await context.SaveChangesAsync();
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"Database error: {ex.GetBaseException}");
+						throw new InvalidOperationException("An error occurred while saving data to DB.");
+					}
+				}
+			}
+		}
+
+		AuthorNames = new();
+		AuthorSurnames = new();
+		RootCategory = new();
+		Title = "";
+		AuthorsCount = 1;
+		index = 0;
+		AuthorNames.Add("");
+		AuthorSurnames.Add("");
+		_Parent.UpdateState();
+	}
+}
+@* <div>
+	Tytuł: @Title <br>
+	Kategoria: @RootCategory.Name <br>
+	Autorzy:
+	@for (int i = 0; i < AuthorsCount; i++)
+	{
+		@($"{AuthorNames[i]} {AuthorSurnames[i]}, ")
+	}
+</div> *@
+
+<button type="button" class="btn btn-primary" @onclick=@AddBook>Dodaj</button>
+<input style="margin:10px" type="text" @oninput="(e) => onTitleInput(e)" class="form-control" placeholder="Tytuł">
+<div class="dropdown" style="margin:10px;">
+	<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown" aria-expanded="false"
+		data-bs-auto-close="outside" @onclick="() => { RootCategory = new(); }">
+		Kategoria
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenuCategory">
+		@foreach (var supercategory in Db.Categories.Where(Category => Category.Id_supercategory == null))
+		{
+			<CascadingValue Value="this">
+				<CategoryModalComponent Category="@supercategory" />
+			</CascadingValue>
+		}
+	</ul>
+</div>
+
+
+@{
+	index = 0;
+}
+@foreach (var Author in AuthorNames)
+{
+	var loopindex = index;
+	<input style="margin:10px" @oninput="(e) => onAuthorNameInput(e, loopindex)" type="text" class="form-control"
+		placeholder="Imię">
+	<input style="margin:10px" @oninput="(e) => onAuthorSurnameInput(e, loopindex)" type="text" class="form-control"
+		placeholder="Nazwisko">
+	index++;
 }
