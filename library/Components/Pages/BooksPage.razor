@@ -121,14 +121,14 @@
 
 	private List<Copy> getCopies(Book currentBook)
 	{
-	    var copies = (from copy in Db.Copies
-	                  join publisher in Db.Publishers
-	                      on copy.Id_publisher equals publisher.Id
-	                  where publisher.Name.Contains(PublisherFilter ?? "")
-	                        && copy.Id_book == currentBook.Id
-	                  select copy).ToList();
-	
-	    return copies;
+		var copies = (from copy in Db.Copies
+					  join publisher in Db.Publishers
+					  on copy.Id_publisher equals publisher.Id
+					  where (publisher.Name ?? "").Contains(PublisherFilter ?? "")
+					  && copy.Id_book == currentBook.Id
+					  select copy).ToList();
+
+		return copies;
 	}
 }
 
@@ -143,7 +143,8 @@
 				placeholder="Imię Autora">
 			<input style="margin:10px" @oninput=@onAuthorSurnameFilter type="text" class="form-control"
 				id="AutorInputSurname" placeholder="Nazwisko Autora">
-			<input style="margin:10px" @oninput=@onPublisherFilter type="text" class="form-control" id="PublisherInput" placeholder="Wydawnictwo">
+			<input style="margin:10px" @oninput=@onPublisherFilter type="text" class="form-control" id="PublisherInput"
+				placeholder="Wydawnictwo">
 
 			<div class="dropdown" style="margin:10px;">
 				<button class="form-control" type="button" id="dropdownMenuCategory" data-bs-toggle="dropdown"
