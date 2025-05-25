@@ -153,8 +153,13 @@
 			Dane
 			<div class="row-md-6">
 				<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 40vh">
-					<li class="list-group-item"> ==== Filtered database data below ==== </li>
-					<li class="list-group-item"></li>
+					@if (RootCategory.Id_category != null)
+					{
+						<li class="list-group-item">
+							<h4 style="font-weight: bold;">@Db.Categories.Where(cat => cat.Id_category ==
+															RootCategory.Id_category).First().Name</h4>
+					</li>
+										}
 					@foreach (var book in getBooks())
 					{
 						<CascadingValue Value="this">
