@@ -237,6 +237,12 @@
 			</div>
 			<div class="modal-body">
 				@* TODO: ADDING BOOK MODAL *@
+				@{
+					Book newBook = new();
+					Category category = new();
+				}
+				<input style="margin:10px" @oninput=@onTitleFilter type="text" class="form-control" id="TitleInput"
+					placeholder="Tytuł">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

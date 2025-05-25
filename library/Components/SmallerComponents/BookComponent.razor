@@ -59,7 +59,10 @@
 					}
 					@author
 				}
-				<br>
+				@if (Authors.Count > 0)
+				{
+					<br>
+				}
 				Kategoria: @Db.Categories.Where(category => category.Id_category ==
 								Book.Id_category).ToList().First().Name
 				<br>

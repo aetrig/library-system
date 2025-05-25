@@ -8,7 +8,7 @@
 @code {
 	private string EditUserDataBtnText = "Edytuj";
 	private bool notEditable = true;
-	private Client currentClient = new Client();
+	private Client? currentClient;
 	private string? newName;
 	private string? newSurname;
 	private string? newPesel;
@@ -38,6 +38,10 @@
 
 	private void OnEditUserData()
 	{
+		if (currentClient == null)
+		{
+			return;
+		}
 		if (EditUserDataBtnText == "Edytuj")
 		{
 			EditUserDataBtnText = "Zapisz";
@@ -52,6 +56,19 @@
 			EditUserDataBtnText = "Edytuj";
 			notEditable = true;
 		}
+	}
+	private void onDeleteUser()
+	{
+		if (currentClient != null)
+		{
+			Db.Clients.Remove(currentClient);
+		}
+		Db.SaveChanges();
+		currentClient = null;
+		newName = null;
+		newSurname = null;
+		newPesel = null;
+		StateHasChanged();
 	}
 
 	private void setClient(Client client)
@@ -145,6 +162,8 @@
 							placeholder="Pesel" readonly="@notEditable">
 						<button style="margin:10px" type="button" class="btn btn-primary" id="EditUserDataBtn"
 							@onclick="OnEditUserData">@EditUserDataBtnText</button>
+						<button style="margin:10px" type="button" class="btn btn-danger"
+							@onclick="onDeleteUser">Usuń</button>
 					</div>
 
 					@* ADD RENTAL BUTTON *@
@@ -156,12 +175,14 @@
 			</div>
 
 			<ul class="list-group overflow-auto shadow" id="BooksList" style="margin:10px; height: 80vh">
-				@foreach (var rental in Db.Rentals.Where(rent => rent.Id_client == currentClient.Id).ToList())
+				@if (currentClient != null)
 				{
-
-					<CascadingValue Value="this">
-						<RentalComponent Rental=@rental />
-					</CascadingValue>
+					foreach (var rental in Db.Rentals.Where(rent => rent.Id_client == currentClient.Id).ToList())
+					{
+						<CascadingValue Value="this">
+							<RentalComponent Rental=@rental />
+						</CascadingValue>
+					}
 				}
 			</ul>
 		</div>
