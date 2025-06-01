@@ -41,37 +41,42 @@
 
 	private async void AddCopy()
 	{
-		if (Db.Copies.Where(c => c.Id_inventory == Id_inventory).Count() > 0)
-		{
-			return;
-		}
-
-		if (Db.Publishers.Where(p => p.Name == Publisher).Count() == 0)
-		{
-			Publisher publisher = new();
-			publisher.Name = Publisher;
-			using (var context = new LibraryContext())
-			{
-				context.Publishers.Add(publisher);
-			}
-
-		}
-
-
-		Copy copy = new();
-		copy.Id_book = book.Id;
-		copy.Id_inventory = Id_inventory;
-		copy.Id_publisher = Db.Publishers.Where(p => p.Name == Publisher).First().Id;
-		try
-		{
-			copy.Year_published = int.Parse(Year_published);
-		}
-		catch
-		{
-			return;
-		}
 		using (var context = new LibraryContext())
 		{
+			if (context.Copies.Where(c => c.Id_inventory == Id_inventory).Count() > 0)
+			{
+				return;
+			}
+
+			if (context.Publishers.Where(p => p.Name == Publisher).Count() == 0)
+			{
+				Publisher publisher = new();
+				publisher.Name = Publisher;
+				context.Publishers.Add(publisher);
+				try
+				{
+					await context.SaveChangesAsync();
+				}
+				catch
+				{
+					return;
+				}
+			}
+
+
+			Copy copy = new();
+			copy.Id_book = book.Id;
+			copy.Id_inventory = Id_inventory;
+			copy.Id_publisher = context.Publishers.Where(p => p.Name == Publisher).First().Id;
+
+			try
+			{
+				copy.Year_published = int.Parse(Year_published);
+			}
+			catch
+			{
+				return;
+			}
 			context.Copies.Add(copy);
 			try
 			{
@@ -82,11 +87,11 @@
 				Console.WriteLine($"Database error: {ex.GetBaseException}");
 				throw new InvalidOperationException("An error occurred while saving data to DB.");
 			}
+			Publisher = "";
+			Year_published = "";
+			Id_inventory = "";
+			_Parent.UpdateState();
 		}
-		Publisher = "";
-		Year_published = "";
-		Id_inventory = "";
-		_Parent.UpdateState();
 	}
 }
 
