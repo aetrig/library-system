@@ -211,7 +211,7 @@
 
 					@* ADD RENTAL BUTTON *@
 					<button style="margin:10px" type="button" class="btn btn-primary" data-bs-toggle="modal"
-						data-bs-target="#AddRental">
+						data-bs-target="#AddRental" disabled=@(currentClient == null)>
 						Dodaj wypożyczenie
 					</button>
 				</div>
