@@ -15,18 +15,9 @@
 	[CascadingParameter]
 	public required BooksPage _Parent { get; set; }
 
-	private bool Deletable;
 	protected override void OnInitialized()
 	{
-		Deletable = true;
-		var Copies = Db.Copies.Where(c => c.Id_book == Book.Id).ToList();
-		Copies.ForEach(c =>
-		{
-			if (Db.Rentals.Where(r => r.Id_copy == c.Id).Count() > 0)
-			{
-				Deletable = false;
-			}
-		});
+
 	}
 
 	private void onBookSelect()
