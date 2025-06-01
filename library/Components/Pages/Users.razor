@@ -13,7 +13,7 @@
 	private string? newSurname;
 	private string? newPesel;
 
-
+	private string modalCopyID = "";
 	private string clientNameFilter = "";
 	private string clientSurnameFilter = "";
 	private string clientPeselFilter = "";
@@ -100,6 +100,46 @@
 		using (var context = new LibraryContext())
 		{
 			context.Clients.Add(newClient);
+			try
+			{
+				await context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Database error: {ex.GetBaseException}");
+				throw new InvalidOperationException("An error occurred while saving data to DB.");
+			}
+		}
+		StateHasChanged();
+	}
+
+	async private Task AddRental()
+	{
+		Rental newRental = new();
+
+		//There is no such copy in the DB
+		if (Db.Copies.Where(copy => copy.Id_inventory == modalCopyID).Count() == 0)
+		{
+			return;
+		}
+		//There is no client selected
+		if (currentClient == null)
+		{
+			return;
+		}
+		//The copy is not available
+		if (Db.Rentals.Where(rental => rental.Id_copy == Db.Copies.Where(copy => copy.Id_inventory ==
+		modalCopyID).First().Id).Count() > 0)
+		{
+			return;
+		}
+		newRental.Date = DateTime.Today;
+		newRental.Deadline = DateTime.Today.AddMonths(1);
+		newRental.Id_client = currentClient.Id;
+		newRental.Id_copy = Db.Copies.Where(copy => copy.Id_inventory == modalCopyID).First().Id;
+		using (var context = new LibraryContext())
+		{
+			context.Rentals.Add(newRental);
 			try
 			{
 				await context.SaveChangesAsync();
@@ -225,11 +265,12 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				...
+				<input style="margin:10px" @bind-value=modalCopyID type="text" class="form-control"
+					placeholder="ID Inwentarza">
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+				<button type="button" @onclick=AddRental class="btn btn-primary">Dodaj</button>
 			</div>
 		</div>
 	</div>
