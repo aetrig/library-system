@@ -85,7 +85,7 @@
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Database error: {ex.GetBaseException}");
+				Console.WriteLine($"Database error: {ex.GetBaseException().Message}");
 				throw new InvalidOperationException("An error occurred while saving data to DB.");
 			}
 			Publisher = "";
