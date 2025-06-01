@@ -1,0 +1,95 @@
+﻿@page "/addbooktest"
+@inject LibraryContext Db
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore;
+@code {
+
+	[Parameter]
+	required public Book book { get; set; }
+	private string Id_inventory = "";
+	private string Publisher = "";
+	private string Year_published = "";
+
+
+
+	[CascadingParameter]
+	public required BooksPage _Parent { get; set; }
+
+	protected override void OnInitialized()
+	{
+
+	}
+	private void onInventoryIDInput(ChangeEventArgs e)
+	{
+		this.Id_inventory = e.Value?.ToString() ?? "";
+	}
+	private void onPublisherInput(ChangeEventArgs e)
+	{
+		this.Publisher = e.Value?.ToString() ?? "";
+	}
+	private void onYearInput(ChangeEventArgs e)
+	{
+		this.Year_published = e.Value?.ToString() ?? "0";
+	}
+
+	public void UpdateState()
+	{
+		StateHasChanged();
+	}
+
+	private async void AddCopy()
+	{
+		if (Db.Publishers.Where(p => p.Name == Publisher).Count() == 0)
+		{
+			Publisher publisher = new();
+			publisher.Name = Publisher;
+			using (var context = new LibraryContext())
+			{
+				context.Publishers.Add(publisher);
+				try
+				{
+					await context.SaveChangesAsync();
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"Database error: {ex.GetBaseException}");
+					throw new InvalidOperationException("An error occurred while saving data to DB.");
+				}
+			}
+
+		}
+
+		Copy copy = new();
+		copy.Id_book = book.Id;
+		copy.Id_inventory = Id_inventory;
+		copy.Id_publisher = Db.Publishers.Where(p => p.Name == Publisher).First().Id;
+		copy.Year_published = int.Parse(Year_published);
+
+		using (var context = new LibraryContext())
+		{
+			context.Copies.Add(copy);
+			try
+			{
+				await context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Database error: {ex.GetBaseException}");
+				throw new InvalidOperationException("An error occurred while saving data to DB.");
+			}
+		}
+		UpdateState();
+	}
+}
+
+<div>
+	Tytuł: @book.Title <br>
+</div>
+
+<button type="button" class="btn btn-primary" @onclick=@AddCopy>Dodaj</button>
+<input style="margin:10px" @bind-value=Id_inventory type="text" @oninput="(e) => onInventoryIDInput(e)"
+	class="form-control" placeholder="ID Inwentarza">
+<input style="margin:10px" @bind-value=Publisher type="text" @oninput="(e) => onPublisherInput(e)" class="form-control"
+	placeholder="Wydawnictwo">
+<input style="margin:10px" @bind-value=Year_published type="text" @oninput="(e) => onYearInput(e)" class="form-control"
+	placeholder="Rok Wydania">
