@@ -16,28 +16,10 @@
 	public Book newBook = new Book();
 
 	private Category RootCategory = new Category();
-	private int Id = 5;
 
 	protected override void OnInitialized()
 	{
 		RootCategory.Id_category = null;
-	}
-	async private void onAddEntry()
-	{
-		Console.WriteLine("Add pressed");
-		newBook.Id = Id;
-		Id++;
-		newBook.Title = "TestTitle";
-		newBook.Id_category = "005";
-		try
-		{
-			await DbService.SaveDataAsync(newBook);
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"Error: {ex.Message}");
-		}
-		UpdateState();
 	}
 
 	public void UpdateState()
