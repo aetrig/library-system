@@ -41,6 +41,11 @@
 
 	private async void AddCopy()
 	{
+		if (Db.Copies.Where(c => c.Id_inventory == Id_inventory).Count() > 0)
+		{
+			return;
+		}
+
 		if (Db.Publishers.Where(p => p.Name == Publisher).Count() == 0)
 		{
 			Publisher publisher = new();
@@ -48,22 +53,10 @@
 			using (var context = new LibraryContext())
 			{
 				context.Publishers.Add(publisher);
-				try
-				{
-					await context.SaveChangesAsync();
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"Database error: {ex.GetBaseException}");
-					throw new InvalidOperationException("An error occurred while saving data to DB.");
-				}
 			}
 
 		}
-		if (Db.Copies.Where(c => c.Id_inventory == Id_inventory).Count() > 0)
-		{
-			return;
-		}
+
 
 		Copy copy = new();
 		copy.Id_book = book.Id;

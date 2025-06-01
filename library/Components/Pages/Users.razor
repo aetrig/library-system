@@ -203,7 +203,7 @@
 						<input style="margin:10px" @bind-value=@newPesel type="text" class="form-control" id="PeselData"
 							placeholder="Pesel" readonly="@notEditable">
 						<button style="margin:10px" type="button" class="btn btn-primary" id="EditUserDataBtn"
-							@onclick="OnEditUserData">@EditUserDataBtnText</button>
+							@onclick="OnEditUserData" disabled=@(currentClient == null)>@EditUserDataBtnText</button>
 						<button style="margin:10px" type="button" class="btn btn-danger" @onclick="onDeleteUser"
 							disabled=@(currentClient == null || Db.Rentals.Where(r => r.Id_client ==
 								   currentClient.Id).Count() > 0)>Usuń</button>

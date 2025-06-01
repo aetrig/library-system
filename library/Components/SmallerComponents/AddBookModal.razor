@@ -72,15 +72,6 @@
 		using (var context = new LibraryContext())
 		{
 			context.Books.Add(book);
-			try
-			{
-				await context.SaveChangesAsync();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Database error: {ex.GetBaseException}");
-				throw new InvalidOperationException("An error occurred while saving data to DB.");
-			}
 		}
 
 		for (int i = 0; i < AuthorsCount; i++)
@@ -97,15 +88,6 @@
 					using (var context = new LibraryContext())
 					{
 						context.Authors.Add(newAuthor);
-						try
-						{
-							await context.SaveChangesAsync();
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine($"Database error: {ex.GetBaseException}");
-							throw new InvalidOperationException("An error occurred while saving data to DB.");
-						}
 					}
 				}
 				Book_author book_author = new();
