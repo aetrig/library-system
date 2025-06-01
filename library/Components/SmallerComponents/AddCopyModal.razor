@@ -17,7 +17,9 @@
 
 	protected override void OnInitialized()
 	{
-
+		Id_inventory = "";
+		Publisher = "";
+		Year_published = "";
 	}
 	private void onInventoryIDInput(ChangeEventArgs e)
 	{
@@ -58,13 +60,23 @@
 			}
 
 		}
+		if (Db.Copies.Where(c => c.Id_inventory == Id_inventory).Count() > 0)
+		{
+			return;
+		}
 
 		Copy copy = new();
 		copy.Id_book = book.Id;
 		copy.Id_inventory = Id_inventory;
 		copy.Id_publisher = Db.Publishers.Where(p => p.Name == Publisher).First().Id;
-		copy.Year_published = int.Parse(Year_published);
-
+		try
+		{
+			copy.Year_published = int.Parse(Year_published);
+		}
+		catch
+		{
+			return;
+		}
 		using (var context = new LibraryContext())
 		{
 			context.Copies.Add(copy);
@@ -78,7 +90,10 @@
 				throw new InvalidOperationException("An error occurred while saving data to DB.");
 			}
 		}
-		UpdateState();
+		Publisher = "";
+		Year_published = "";
+		Id_inventory = "";
+		_Parent.UpdateState();
 	}
 }
 

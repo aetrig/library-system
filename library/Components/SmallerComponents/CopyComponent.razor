@@ -25,7 +25,8 @@
 	private void onDelete()
 	{
 		Db.Copies.Remove(Copy);
-
+		Db.Publishers.Where(p => Db.Copies.Where(c => c.Id_publisher == p.Id).Count() == 0).ToList().ForEach(p =>
+		Db.Publishers.Remove(p));
 		Db.SaveChanges();
 
 		_Parent.UpdateState();
@@ -49,13 +50,16 @@
 			<br>
 			Wydawnictwo: @Db.Publishers.Where(Publisher => Publisher.Id == Copy.Id_publisher).First().Name
 			<br>
+			Rok Wydania: @Copy.Year_published
+			<br>
 		</div>
 
 		<div class="col-md-auto"
 			style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
 			@*? Jeśli chcemy to dodać to możemy, ale imo nie jest bardzo wymagane *@
 			@* <button class="btn btn-primary" @onclick=@onEdit type="button" style="margin:2px">Edytuj</button> *@
-			<button class="btn btn-danger" @onclick=@onDelete type="button" style="margin:2px">Usuń</button>
+			<button class="btn btn-danger" @onclick=@onDelete type="button" style="margin:2px"
+				disabled=@(Db.Rentals.Where(r => r.Id_copy == Copy.Id).Count() > 0)>Usuń</button>
 		</div>
 	</div>
 </div>

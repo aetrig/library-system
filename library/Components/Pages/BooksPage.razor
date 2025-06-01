@@ -115,7 +115,6 @@
 				category = categories.Where(cat => cat.Id_category == category.Id_supercategory).FirstOrDefault();
 			}
 		}
-
 		return books_filtered;
 	}
 
@@ -127,7 +126,6 @@
 					  where (publisher.Name ?? "").Contains(PublisherFilter ?? "")
 					  && copy.Id_book == currentBook.Id
 					  select copy).ToList();
-
 		return copies;
 	}
 }

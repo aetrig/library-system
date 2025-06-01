@@ -15,10 +15,18 @@
 	[CascadingParameter]
 	public required BooksPage _Parent { get; set; }
 
-
-	private void onEdit()
+	private bool Deletable;
+	protected override void OnInitialized()
 	{
-
+		Deletable = true;
+		var Copies = Db.Copies.Where(c => c.Id_book == Book.Id).ToList();
+		Copies.ForEach(c =>
+		{
+			if (Db.Rentals.Where(r => r.Id_copy == c.Id).Count() > 0)
+			{
+				Deletable = false;
+			}
+		});
 	}
 
 	private void onBookSelect()
@@ -30,7 +38,13 @@
 	{
 		Db.Books_authors.Where(pair => pair.Id_book == Book.Id).ToList().ForEach(pair =>
 		Db.Database.ExecuteSql($"DELETE FROM books_authors WHERE id_book = {pair.Id_book} AND id_author = {pair.Id_author}"));
-		Db.Copies.Where(copy => copy.Id_book == Book.Id).ToList().ForEach(copy => Db.Copies.Remove(copy));
+		Db.Copies.Where(copy => copy.Id_book == Book.Id).ToList().ForEach(copy =>
+		{
+			Db.Copies.Remove(copy);
+
+		});
+		Db.Publishers.Where(p => Db.Copies.Where(c => c.Id_publisher == p.Id).Count() == 0).ToList().ForEach(p =>
+		Db.Publishers.Remove(p));
 		Db.Books.Remove(Book);
 
 		//Cleaning up empty authors
@@ -81,7 +95,9 @@
 			style="margin: 0px; display: flex; justify-content: space-around; align-items: center;">
 			@*? Jeśli chcemy to dodać to możemy, ale imo nie jest bardzo wymagane *@
 			@* <button class="btn btn-primary" @onclick=@onEdit type="button" style="margin:2px">Edytuj</button> *@
-			<button class="btn btn-danger" @onclick=@onDelete type="button" style="margin:2px">Usuń</button>
+			<button class="btn btn-danger" @onclick=@onDelete type="button" style="margin:2px"
+				disabled=@(Db.Copies.Any(copy => copy.Id_book == Book.Id && Db.Rentals.Any(rental => rental.Id_copy ==
+					copy.Id)))>Usuń</button>
 		</div>
 	</div>
 </div>
