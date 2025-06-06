@@ -10,6 +10,7 @@
 	private List<string> AuthorNames = new();
 	private List<string> AuthorSurnames = new();
 	private Category RootCategory = new();
+	private string errorMessage = "";
 
 	[CascadingParameter]
 	public required BooksPage _Parent { get; set; }
@@ -22,12 +23,21 @@
 		Title = "";
 		AuthorsCount = 1;
 		index = 0;
+		errorMessage = "";
 		AuthorNames.Add("");
 		AuthorSurnames.Add("");
 	}
 	private void onTitleInput(ChangeEventArgs e)
 	{
 		Title = (e.Value ?? "").ToString() ?? "";
+		if(Title.Length > 50)
+		{
+			errorMessage = "Tytuł nie może mieć więcej niż 50 znaków.";
+		}
+		else
+		{
+			errorMessage = "";
+		}
 	}
 	private void onAuthorNameInput(ChangeEventArgs e, int i)
 	{
@@ -38,6 +48,15 @@
 			AuthorsCount++;
 		}
 		AuthorNames[i] = (e.Value ?? "").ToString() ?? "";
+
+		if(AuthorNames[i].Length > 50)
+		{
+			errorMessage = "Imiona autorów nie mogą mieć więcej niż 50 znaków.";
+		}
+		else
+		{
+			errorMessage = "";
+		}
 	}
 	private void onAuthorSurnameInput(ChangeEventArgs e, int i)
 	{
@@ -48,6 +67,14 @@
 			AuthorsCount++;
 		}
 		AuthorSurnames[i] = (e.Value ?? "").ToString() ?? "";
+		if(AuthorSurnames[i].Length > 50)
+		{
+			errorMessage = "Nazwiska autorów nie mogą mieć więcej niż 50 znaków.";
+		}
+		else
+		{
+			errorMessage = "";
+		}
 	}
 
 	public void onCategoryFilter(Category category)
@@ -61,10 +88,42 @@
 
 	private async void AddBook()
 	{
+		if(Title.Length > 50)
+		{
+			errorMessage = "Tytuł nie może mieć więcej niż 50 znaków.";
+			StateHasChanged();
+			return;
+		}
+		else if(string.IsNullOrEmpty(Title))
+		{
+			errorMessage = "Tytuł nie może być pusty.";
+			StateHasChanged();
+			return;
+		}
+
+		for(int i = 0; i < AuthorsCount; i++)
+		{
+			if(AuthorNames[i].Length > 50)
+			{
+				errorMessage = "Imiona autorów nie mogą mieć więcej niż 50 znaków.";
+				StateHasChanged();
+				return;
+			}
+			if(AuthorSurnames[i].Length > 50)
+			{
+				errorMessage = "Nazwiska autorów nie mogą mieć więcej niż 50 znaków.";
+				StateHasChanged();
+				return;
+			}
+		}
+
+
 		Book book = new();
 		book.Title = Title;
 		if (RootCategory == null || RootCategory.Id_category == null)
 		{
+			errorMessage = "Proszę wybrać kategorię.";
+			StateHasChanged();
 			return;
 		}
 		book.Id_category = RootCategory.Id_category;
@@ -182,4 +241,8 @@
 	<input style="margin:10px" @bind-value=@AuthorSurnames[loopindex] @oninput="(e) => onAuthorSurnameInput(e, loopindex)" type="text" class="form-control"
 		placeholder="Nazwisko">
 	index++;
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+	<div class= "text-danger" style="margin:10px">@errorMessage</div>
 }
