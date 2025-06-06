@@ -9,6 +9,7 @@
 	private string Id_inventory = "";
 	private string Publisher = "";
 	private string Year_published = "";
+	private string errorMessage = "";
 
 
 
@@ -20,14 +21,31 @@
 		Id_inventory = "";
 		Publisher = "";
 		Year_published = "";
+		errorMessage = "";
 	}
 	private void onInventoryIDInput(ChangeEventArgs e)
 	{
 		this.Id_inventory = e.Value?.ToString() ?? "";
+		if(Id_inventory.Length > 6)
+		{
+			errorMessage = "ID inewnatrza nie może mieć więcej niż 6 znaków.";
+		}
+		else
+		{
+			errorMessage = "";
+		}
 	}
 	private void onPublisherInput(ChangeEventArgs e)
 	{
 		this.Publisher = e.Value?.ToString() ?? "";
+		if(Publisher.Length > 50)
+		{
+			errorMessage = "Nazwa wydawcy nie może mieć więcej niż 50 znaków.";
+		}
+		else
+		{
+			errorMessage = "";
+		}
 	}
 	private void onYearInput(ChangeEventArgs e)
 	{
@@ -41,10 +59,31 @@
 
 	private async void AddCopy()
 	{
+		if(Id_inventory.Length > 6)
+		{
+			errorMessage = "ID inewnatrza nie może mieć więcej niż 6 znaków.";
+			StateHasChanged();
+			return;
+		}
+		else if(string.IsNullOrEmpty(Id_inventory))
+		{
+			errorMessage = "ID inwentarza nie może być puste.";
+			StateHasChanged();
+			return;
+		}
+		if(Publisher.Length > 50)
+		{
+			errorMessage = "Nazwa wydawcy nie może mieć więcej niż 50 znaków.";
+			StateHasChanged();
+			return;
+		}
+
 		using (var context = new LibraryContext())
 		{
 			if (context.Copies.Where(c => c.Id_inventory == Id_inventory).Count() > 0)
 			{
+				errorMessage = "Egzemplarz o danym ID inwentarza już istnieje.";
+				StateHasChanged();
 				return;
 			}
 
@@ -76,6 +115,8 @@
 			}
 			catch
 			{
+				errorMessage = "Błędny format daty.";
+				StateHasChanged();
 				return;
 			}
 			context.Copies.Add(copy);
@@ -107,3 +148,8 @@
 	placeholder="Wydawnictwo">
 <input style="margin:10px" @bind-value=Year_published type="text" @oninput="(e) => onYearInput(e)" class="form-control"
 	placeholder="Rok Wydania">
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+	<div class= "text-danger" style="margin:10px">@errorMessage</div>
+}
