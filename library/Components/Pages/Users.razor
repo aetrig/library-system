@@ -18,6 +18,10 @@
 	private string clientSurnameFilter = "";
 	private string clientPeselFilter = "";
 
+	private string rentalErrorMessage = "";
+	private string addClientErrorMessage = "";
+	private string editClientErrorMessage = "";
+
 	private void onClientNameFilter(ChangeEventArgs e)
 	{
 		clientNameFilter = (e.Value ?? "").ToString() ?? "";
@@ -49,12 +53,45 @@
 		}
 		else if (EditUserDataBtnText == "Zapisz")
 		{
+
+			if(newName?.Length > 50)
+			{
+				editClientErrorMessage = "Imię klienta nie może mieć więcej niż 50 znaków.";
+				return;
+			}
+			else if (string.IsNullOrEmpty(newName))
+			{
+				editClientErrorMessage = "Imię klienta nie może być puste.";
+				return;
+			}
+			if(newSurname?.Length > 50)
+			{
+				editClientErrorMessage = "Nazwisko klienta nie może mieć więcej niż 50 znaków.";
+				return;
+			}
+			else if (string.IsNullOrEmpty(newSurname))
+			{
+				editClientErrorMessage = "Nazwisko klienta nie może być puste.";
+				return;
+			}
+			if(newPesel?.Length > 11)
+			{
+				editClientErrorMessage = "Pesel klienta nie może mieć więcej niż 11 znaków.";
+				return;
+			}
+			else if (string.IsNullOrEmpty(newPesel))
+			{
+				editClientErrorMessage = "Pesel klienta nie może być pusty.";
+				return;
+			}
+
 			currentClient.Name = newName;
 			currentClient.Surname = newSurname;
 			currentClient.Pesel = newPesel;
 			Db.SaveChanges();
 			EditUserDataBtnText = "Edytuj";
 			notEditable = true;
+			editClientErrorMessage = "";
 		}
 	}
 	private void onDeleteUser()
@@ -94,6 +131,31 @@
 	async private Task AddClient()
 	{
 		Client newClient = new();
+		if(string.IsNullOrEmpty(modalClientName) || string.IsNullOrEmpty(modalClientSurname) || string.IsNullOrEmpty(modalClientPesel))
+		{
+			addClientErrorMessage = "Proszę wypełnić wszystkie pola.";
+			StateHasChanged();
+			return;
+		}
+		if(modalClientName?.Length > 50)
+		{
+			addClientErrorMessage = "Imię klienta nie może mieć więcej niż 50 znaków.";
+			StateHasChanged();
+			return;
+		}
+		if(modalClientSurname?.Length > 50)
+		{
+			addClientErrorMessage = "Nazwisko klienta nie może mieć więcej niż 50 znaków.";
+			StateHasChanged();
+			return;
+		}
+		if(modalClientPesel?.Length > 11)
+		{
+			addClientErrorMessage = "Pesel klienta nie może mieć więcej niż 11 znaków.";
+			StateHasChanged();
+			return;
+		}
+
 		newClient.Name = modalClientName;
 		newClient.Surname = modalClientSurname;
 		newClient.Pesel = modalClientPesel;
@@ -111,6 +173,7 @@
 			}
 		}
 		StateHasChanged();
+		addClientErrorMessage = "";
 	}
 
 	async private Task AddRental()
@@ -120,17 +183,23 @@
 		//There is no such copy in the DB
 		if (Db.Copies.Where(copy => copy.Id_inventory == modalCopyID).Count() == 0)
 		{
+			rentalErrorMessage = "Egzemplarz o podanym ID inwentarza nie istnieje.";
+			StateHasChanged();
 			return;
 		}
 		//There is no client selected
 		if (currentClient == null)
 		{
+			rentalErrorMessage = "Proszę wybrać klienta.";
+			StateHasChanged();
 			return;
 		}
 		//The copy is not available
 		if (Db.Rentals.Where(rental => rental.Id_copy == Db.Copies.Where(copy => copy.Id_inventory ==
 		modalCopyID).First().Id).Count() > 0)
 		{
+			rentalErrorMessage = "Egzemplarz o podanym ID inwentarza jest niedostępny do wypożyczenia.";
+			StateHasChanged();
 			return;
 		}
 		newRental.Date = DateTime.Today;
@@ -151,6 +220,7 @@
 			}
 		}
 		StateHasChanged();
+		rentalErrorMessage = "";
 	}
 	public void UpdateState()
 	{
@@ -191,6 +261,10 @@
 		@* CHOSEN USER *@
 		<div class="col-md-10">
 			Dane
+			@if(!string.IsNullOrEmpty(editClientErrorMessage))
+				{
+					<div class="text-danger" style="margin:10px">@editClientErrorMessage</div>
+				}
 			<div class="row">
 				<div class="d-flex justify-content-between">
 
@@ -249,6 +323,10 @@
 				<input style="margin:10px" @bind-value=modalClientPesel type="text" class="form-control"
 					placeholder="Pesel">
 			</div>
+					@if(!string.IsNullOrEmpty(addClientErrorMessage))
+					{
+					<div class="text-danger" style="margin:10px">@addClientErrorMessage</div>
+					}
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
 				<button type="button" @onclick=AddClient class="btn btn-primary">Zapisz</button>
@@ -268,6 +346,10 @@
 			<div class="modal-body">
 				<input style="margin:10px" @bind-value=modalCopyID type="text" class="form-control"
 					placeholder="ID Inwentarza">
+					@if(!string.IsNullOrEmpty(rentalErrorMessage))
+					{
+						<div class="text-danger" style="margin:10px">@rentalErrorMessage</div>
+					}
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
