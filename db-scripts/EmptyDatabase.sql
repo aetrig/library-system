@@ -1,6 +1,6 @@
 -- @block
 SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE categories;
+-- TRUNCATE TABLE categories;
 TRUNCATE TABLE books;
 TRUNCATE TABLE copies;
 TRUNCATE TABLE clients;
