@@ -237,9 +237,9 @@
 {
 	var loopindex = index;
 	<input style="margin:10px" @bind-value=@AuthorNames[loopindex] @oninput="(e) => onAuthorNameInput(e, loopindex)" type="text" class="form-control"
-		placeholder="Imię">
+		placeholder="Imię Autora">
 	<input style="margin:10px" @bind-value=@AuthorSurnames[loopindex] @oninput="(e) => onAuthorSurnameInput(e, loopindex)" type="text" class="form-control"
-		placeholder="Nazwisko">
+		placeholder="Nazwisko Autora">
 	index++;
 }
 @if (!string.IsNullOrEmpty(errorMessage))
